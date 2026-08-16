@@ -298,6 +298,23 @@ body {
 .opening-art { transition:none !important; animation:none !important; filter:none !important; transform:translate(-50%,-50%) scale(1) !important; opacity:1 !important; }
 #opening.ready .opening-art, #opening.entered .opening-art { transition:none !important; animation:none !important; filter:none !important; }
 
+
+/* Preserve the complete opening artwork, including both side lamps. */
+#opening .opening-art {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+@media (max-width: 699px) {
+  #opening .opening-art {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
 </style>
 </head>
 
