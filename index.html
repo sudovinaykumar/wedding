@@ -1,441 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f7e8de">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Rachana & Vinay — Wedding Invitation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7e8de">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Rachana & Vinay — Wedding Invitation</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <!-- Load the opening artwork first because it is the first screen visitors see. -->
+  <link rel="preload" as="image" href="opening.png">
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #f7e8de;
-  -webkit-text-size-adjust: 100%;
-}
+  <style>
+    * { box-sizing: border-box; }
 
-body {
-  overscroll-behavior: none;
-}
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f7e8de;
+      -webkit-text-size-adjust: 100%;
+    }
 
+    body { overscroll-behavior: none; }
 
-/* =========================================================
-   INVITATION SCROLLER
-   ========================================================= */
+    /* Full-screen, vertically scrolling invitation with one page per viewport. */
+    #invitation {
+      width: 100%;
+      height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scroll-snap-stop: always;
+      scroll-behavior: smooth;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
 
-#invitation {
-  width: 100%;
-  height: 100dvh;
-  overflow-y: auto;
-  overflow-x: hidden;
+    #invitation::-webkit-scrollbar { display: none; }
 
-  scroll-snap-type: y mandatory;
-  scroll-snap-stop: always;
-  scroll-behavior: smooth;
+    .page {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      background: #f7e8de;
+    }
 
-  overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
+    .page-art {
+      display: block;
+      width: auto;
+      height: 92%;
+      max-width: none;
+      object-fit: contain;
+      object-position: center;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      transform: scale(0.94);
+      opacity: 0.72;
+      transform-origin: center center;
+      transition:
+        transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 650ms ease;
+      will-change: transform, opacity;
+    }
 
-  scrollbar-width: none;
-}
+    .page.active .page-art {
+      transform: scale(1);
+      opacity: 1;
+    }
 
-#invitation::-webkit-scrollbar {
-  display: none;
-}
+    /* Transparent clickable area over the existing VIEW LOCATION artwork. */
+    .map-hit {
+      position: absolute;
+      left: 31%;
+      top: 68%;
+      width: 39%;
+      height: 14%;
+      display: block;
+      background: transparent;
+      border: 0;
+      outline: 0 !important;
+      box-shadow: none !important;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-focus-ring-color: transparent;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
 
-/*
-  Every section is exactly one viewport tall.
-  This prevents the following page from peeking into the
-  current screen.
-*/
-.page {
-  position: relative;
-  width: 100%;
-  height: 100dvh;
-  min-height: 100dvh;
-  max-height: 100dvh;
+    .map-hit:focus,
+    .map-hit:focus-visible,
+    .map-hit:active {
+      outline: none !important;
+      box-shadow: none !important;
+    }
 
-  overflow: hidden;
+    /* Opening page: static artwork. No animation is used. */
+    #opening {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      overflow: hidden;
+      background: #f4ded2;
+      touch-action: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    #opening.entered {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+    .opening-art {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      transform: translate(-50%, -50%);
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
 
-  background: #f7e8de;
-}
+    .opening-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/*
-  The artwork keeps its original proportions.
-  It is NEVER stretched.
-*/
-.page-art {
-  display: block;
-  /*
-    Mobile presentation deliberately uses a larger artwork.
-    The original image is not stretched; a little side cropping
-    is used to make the invitation feel fuller on a phone.
-  */
-  width: auto;
-  height: 92%;
-  max-width: none;
-  object-fit: contain;
-  object-position: center;
+    /* Phone layout: fill the screen vertically while preserving the artwork itself. */
+    @media (max-width: 699px) {
+      .page-art {
+        height: 92%;
+        transform: scale(0.98);
+      }
 
-  margin: 0;
-  padding: 0;
-  border: 0;
+      .page.active .page-art { transform: scale(1.08); }
 
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
+      #page3 .page-art {
+        filter: drop-shadow(0 0 1px rgba(105, 83, 70, 0.10));
+      }
 
-  transform: scale(0.94);
-  opacity: 0.72;
+      #page3.active .page-art { transform: scale(1.02); }
 
-  transform-origin: center center;
+      .opening-art {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+    }
 
-  transition:
-    transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 650ms ease;
+    /* Desktop keeps the complete artwork visible without stretching. */
+    @media (min-width: 700px) {
+      .page-art {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transform: scale(0.94);
+      }
 
-  will-change: transform, opacity;
-}
+      .page.active .page-art { transform: scale(1); }
+    }
 
-.page.active .page-art {
-  transform: scale(1);
-  opacity: 1;
-}
-
-/* =========================================================
-   GOOGLE MAPS HIT AREA
-   =========================================================
-
-   Transparent hit area is positioned over the existing
-   VIEW LOCATION artwork. It creates no visual box.
-*/
-
-.map-hit {
-  position: absolute;
-
-  left: 31%;
-  top: 68%;
-  width: 39%;
-  height: 14%;
-
-  display: block;
-
-  background: transparent;
-  border: 0;
-  outline: 0 !important;
-  box-shadow: none !important;
-
-  -webkit-tap-highlight-color: transparent;
-  -webkit-focus-ring-color: transparent;
-
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.map-hit:focus,
-.map-hit:focus-visible,
-.map-hit:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/*
-  Phone:
-  start slightly smaller, then grow beyond the viewport width.
-  This deliberately trades a little side crop for much less
-  visible background between invitation pages.
-*/
-@media (max-width: 699px) {
-  .page-art {
-    height: 92%;
-    transform: scale(0.98);
-  }
-
-  .page.active .page-art {
-    transform: scale(1.08);
-  }
-
-  /* Opening image: show the complete portrait on phones so both side lamps remain visible. */
-  .opening-art {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    transform: translate(-50%, -50%) scale(0.96);
-  }
-
-  #opening.ready .opening-art {
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  #opening.entered .opening-art {
-    transform: translate(-50%, -50%) scale(1.03);
-  }
-
-  /* Keep the final page slightly smaller so its boundary remains visible. */
-  #page3 .page-art {
-    filter: drop-shadow(0 0 1px rgba(105, 83, 70, 0.10));
-  }
-
-  #page3.active .page-art {
-    transform: scale(1.02);
-  }
-}
-
-/* Desktop keeps the original uncropped presentation. */
-@media (min-width: 700px) {
-  .page {
-    width: 100%;
-  }
-
-  .page-art {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transform: scale(0.94);
-  }
-
-  .page.active .page-art {
-    transform: scale(1);
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  #invitation {
-    scroll-behavior: auto;
-  }
-
-  #envelope,
-  .page-art {
-    transition: none;
-  }
-}
-
-/* ===== V10 exact generated opening artwork ===== */
-#opening {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  overflow: hidden;
-  background: #f4ded2;
-  touch-action: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-  transition: opacity 850ms ease, visibility 850ms ease;
-}
-#opening.entered {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-.opening-art {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transform: translate(-50%, -50%) scale(0.90);
-  opacity: 0.72;
-  filter: blur(1.5px);
-  transition:
-    transform 1300ms cubic-bezier(.22,.61,.36,1),
-    opacity 900ms ease,
-    filter 900ms ease;
-  will-change: transform, opacity, filter;
-}
-#opening.ready .opening-art {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  filter: blur(0);
-}
-#opening.entered .opening-art {
-  transform: translate(-50%, -50%) scale(1.08);
-  opacity: 0;
-}
-.opening-hit {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-@media (prefers-reduced-motion: reduce) {
-  .opening-art {
-    transition: none;
-    transform: translate(-50%, -50%) scale(1);
-    filter: none;
-  }
-  #opening {
-    transition: none;
-  }
-}
-
-/* Clean static opening: no animation */
-#opening { opacity:1 !important; visibility:visible !important; transition:none !important; }
-#opening.entered { opacity:0 !important; visibility:hidden !important; transition:none !important; }
-.opening-art { transition:none !important; animation:none !important; filter:none !important; transform:translate(-50%,-50%) scale(1) !important; opacity:1 !important; }
-#opening.ready .opening-art, #opening.entered .opening-art { transition:none !important; animation:none !important; filter:none !important; }
-
-
-/* Opening: preserve the complete original artwork; no image resizing/cropping by CSS. */
-#opening .opening-art {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  object-position: center center !important;
-}
-
-
-/* Phone opening: fill the entire screen vertically; artwork file remains untouched. */
-@media (max-width: 699px) {
-  #opening .opening-art {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-  }
-}
-
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      #invitation { scroll-behavior: auto; }
+      .page-art { transition: none; }
+    }
+  </style>
 </head>
 
 <body>
-
-<div id="opening" class="ready" role="button" tabindex="0"
-     aria-label="Open wedding invitation">
-  <img class="opening-art" src="opening.png" alt="">
-  <button class="opening-hit" type="button" aria-label="Tap to open invitation"></button>
-</div>
-    <div class="jasmine-glow"></div>
-    <div class="jasmine-arch"></div>
-    <div class="curtain-side left"></div><div class="curtain-side right"></div>
-    <div class="jasmine-row left"></div><div class="jasmine-row right"></div>
-    <div class="jasmine-flower one"></div><div class="jasmine-flower two"></div>
-    
+  <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
+    <img class="opening-art" src="opening.png" alt="">
+    <button class="opening-hit" type="button" aria-label="Tap to open invitation"></button>
   </div>
-</div>
 
-<main id="invitation">
+  <main id="invitation">
+    <section class="page" id="page1">
+      <img
+        class="page-art"
+        src="page1.png"
+        alt="Rachana and Vinay wedding invitation"
+        decoding="async"
+      >
+    </section>
 
-  <section class="page" id="page1">
-    <img
-      class="page-art"
-      src="page1.png"
-      alt="Rachana and Vinay wedding invitation"
-    >
-  </section>
+    <section class="page" id="page2">
+      <img
+        class="page-art"
+        src="page2.png"
+        alt="Wedding ceremony, reception and venue details"
+        decoding="async"
+      >
 
-  <section class="page" id="page2">
-    <img
-      class="page-art"
-      src="page2.png"
-      alt="Wedding ceremony, reception and venue details"
-    >
+      <a
+        class="map-hit"
+        href="https://www.google.com/maps/search/?api=1&query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru"
+        aria-label="Open GNR Kalyana Mantapa in Google Maps"
+      ></a>
+    </section>
 
-    <!--
-      Transparent clickable area over VIEW LOCATION.
-      Direct navigation avoids browser focus/popup styling.
-    -->
-    <a
-      class="map-hit"
-      href="https://www.google.com/maps/search/?api=1&query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru"
-      aria-label="Open GNR Kalyana Mantapa in Google Maps"
-    ></a>
-  </section>
+    <section class="page" id="page3">
+      <img
+        class="page-art"
+        src="page3.png"
+        alt="With Love — Rachana and Vinay Kumar"
+        decoding="async"
+      >
+    </section>
+  </main>
 
-  <section class="page" id="page3">
-    <img
-      class="page-art"
-      src="page3.png"
-      alt="A New Beginning — Rachana and Vinay"
-    >
-  </section>
+  <script>
+    (() => {
+      const opening = document.getElementById("opening");
+      const invitation = document.getElementById("invitation");
+      const pages = [...document.querySelectorAll(".page")];
+      const hit = opening.querySelector(".opening-hit");
+      let entered = false;
 
-</main>
-
-<script>
-(function () {
-  const opening = document.getElementById("opening");
-  const invitation = document.getElementById("invitation");
-  const pages = Array.from(document.querySelectorAll(".page"));
-  const hit = opening.querySelector(".opening-hit");
-  let entered = false;
-
-  function enter(event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    if (entered) return;
-    entered = true;
-
-    opening.classList.remove("ready");
-    opening.classList.add("entered");
-
-    opening.remove();
-      invitation.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      pages[0].classList.add("active");
-  }
-
-  opening.addEventListener("click", enter);
-  opening.addEventListener("touchend", enter, { passive: false });
-  opening.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" || event.key === " ") enter(event);
-  });
-  hit.addEventListener("click", enter);
-  hit.addEventListener("touchend", enter, { passive: false });
-
-  const observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
-          entry.target.classList.add("active");
-        } else {
-          entry.target.classList.remove("active");
+      function enter(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
         }
+        if (entered) return;
+        entered = true;
+
+        opening.classList.add("entered");
+        opening.remove();
+        invitation.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        pages[0].classList.add("active");
+      }
+
+      opening.addEventListener("click", enter);
+      opening.addEventListener("touchend", enter, { passive: false });
+      opening.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") enter(event);
       });
-    },
-    {
-      root: invitation,
-      threshold: [0.6, 0.8, 1]
-    }
-  );
+      hit.addEventListener("click", enter);
+      hit.addEventListener("touchend", enter, { passive: false });
 
-  pages.forEach(function (page) {
-    observer.observe(page);
-  });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle(
+              "active",
+              entry.isIntersecting && entry.intersectionRatio >= 0.6
+            );
+          });
+        },
+        {
+          root: invitation,
+          threshold: [0.6, 0.8, 1]
+        }
+      );
 
-  const mapHit = document.querySelector(".map-hit");
-  mapHit.addEventListener("touchstart", function (event) {
-    event.stopPropagation();
-  }, { passive: true });
-  mapHit.addEventListener("click", function (event) {
-    event.stopPropagation();
-  });
-})();
-</script>
+      pages.forEach((page) => observer.observe(page));
 
+      const mapHit = document.querySelector(".map-hit");
+      mapHit.addEventListener("touchstart", (event) => {
+        event.stopPropagation();
+      }, { passive: true });
+      mapHit.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    })();
+  </script>
 </body>
 </html>

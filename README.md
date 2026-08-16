@@ -1,12 +1,34 @@
-# Rachana & Vinay Wedding Invitation — V10 Jasmine Curtain
+# Rachana & Vinay Wedding Invitation
 
-This version uses the **exact generated opening artwork** from the selected concept.
+A simple, mobile-friendly wedding invitation built as a static GitHub Pages website.
 
-- Opening artwork is not recreated or redesigned.
-- The exact generated image is shown full-screen on mobile.
-- It starts slightly smaller/soft and grows into place.
-- Tap is required before the invitation pages become accessible.
-- Scrolling cannot accidentally enter Page 1/2/3 from the opening.
-- After opening, the existing smooth one-page invitation flow remains.
-- Page 2 Google Maps hit area is retained.
-- Page 1, Page 2 and Page 3 artwork are unchanged.
+## Files
+
+- `index.html` — main invitation page and navigation logic.
+- `opening.png` — opening page artwork.
+- `page1.png` — names and wedding date.
+- `page2.png` — ceremony, reception, venue and Google Maps link.
+- `page3.png` — invitation message.
+
+## Details
+
+- Opening artwork is shown as the first screen and requires a tap/click to enter.
+- Page 1, Page 2 and Page 3 use the final generated artwork supplied for the invitation.
+- Pages use vertical scroll snapping for a one-page-at-a-time experience.
+- `View Location` on Page 2 opens GNR Kalyana Mantapa, Jayanagar, Bengaluru in Google Maps.
+- No external JavaScript libraries or animation libraries are required.
+- The artwork files are kept at their original quality; no image compression is applied by the website.
+
+## GitHub Pages
+
+Keep all files in the same repository directory, with `index.html` at the publishing root:
+
+```text
+/
+├── index.html
+├── opening.png
+├── page1.png
+├── page2.png
+├── page3.png
+└── README.md
+```
