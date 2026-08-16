@@ -299,20 +299,12 @@ body {
 #opening.ready .opening-art, #opening.entered .opening-art { transition:none !important; animation:none !important; filter:none !important; }
 
 
-/* Preserve the complete opening artwork, including both side lamps. */
+/* Opening: preserve the complete original artwork; no image resizing/cropping by CSS. */
 #opening .opening-art {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
-}
-@media (max-width: 699px) {
-  #opening .opening-art {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    object-position: center center !important;
-  }
 }
 
 </style>
