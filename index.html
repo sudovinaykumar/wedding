@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Rachana & Vinay — Wedding Invitation</title>
 
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=7X7j2UoJ-85EIkvdorGCw6FKqiM6hrqCRA5q9mkQJdGGJLUfClXN3BKLvF0iiQdey3QUg9UpmOb5Wa3w7XLqDxiDMup_nky1uyC6bOoQukUPeoWdaL69p7Ai3yvR_nSBWCAwuUZ_lzM2evFx12HG3s_XtIG8SHe_x8-eHNdW02F8ySV3tek8CYh888qRm09vUCT8PJ8-p7fmLMWsaGKqc0EYqjk1couBUvQrcstX856j9ZYOzLYM2yw1UNwEnuBcuafVtmPRIMdjZ49LJz-x6JENDPkHfgR-1U-FhkrfJnMnD_Y3zZ1OAJspjHaZpaLMtlHqzuMMWrXDdrwZpKdVcg" charset="UTF-8"></script><style>
+<style>
 * {
   box-sizing: border-box;
 }
@@ -291,6 +291,13 @@ body {
     transition: none;
   }
 }
+
+/* Clean static opening: no animation */
+#opening { opacity:1 !important; visibility:visible !important; transition:none !important; }
+#opening.entered { opacity:0 !important; visibility:hidden !important; transition:none !important; }
+.opening-art { transition:none !important; animation:none !important; filter:none !important; transform:translate(-50%,-50%) scale(1) !important; opacity:1 !important; }
+#opening.ready .opening-art, #opening.entered .opening-art { transition:none !important; animation:none !important; filter:none !important; }
+
 </style>
 </head>
 
@@ -367,11 +374,9 @@ body {
     opening.classList.remove("ready");
     opening.classList.add("entered");
 
-    setTimeout(function () {
-      opening.remove();
+    opening.remove();
       invitation.scrollTo({ top: 0, left: 0, behavior: "auto" });
       pages[0].classList.add("active");
-    }, 900);
   }
 
   opening.addEventListener("click", enter);
