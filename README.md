@@ -1,35 +1,12 @@
-# Rachana & Vinay — Wedding Invitation
+# Rachana & Vinay Wedding Invitation
 
-This version follows the uploaded reference implementation.
+Final screen flow:
 
-## Exactly 4 screens
+Opening → Page 1 → Page 2 → Page 3
 
-1. Opening
-2. Page 1
-3. Page 2
-4. Page 3
-
-The opening is a full-screen artwork. Tapping/clicking anywhere opens the invitation.
-
-Pages 1–3 use full-screen vertical scroll snapping so each page occupies one viewport at a time. The reference implementation also uses the original artwork without image compression.
-
-## Files
-
-- `index.html`
-- `opening.png`
-- `page1.png`
-- `page2.png`
-- `page3.png`
-- `README.md`
-
-## Page 2 location
-
-The transparent View Location hit area is aligned to the lower location label and is responsive for phone and desktop layouts. It opens:
-
-GNR Kalyana Mantapa, Jayanagar, Bengaluru
-
-## GitHub Pages
-
-Upload all six files to the repository root, then:
-
-Settings → Pages → Deploy from a branch → `main` → `/ (root)` → Save.
+- Opening is a separate full-screen screen and opens on tap/click.
+- Pages 1–3 use the Reference B page sizing.
+- Pages 1–3 use the subtle small-to-big + fade entrance effect.
+- Page 2 keeps the transparent Google Maps View Location hotspot.
+- The SCROLL DOWN indicator is retained from Reference B.
+- No tap/scroll text was added to the opening.
