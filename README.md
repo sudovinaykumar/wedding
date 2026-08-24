@@ -1,34 +1,35 @@
-# Rachana & Vinay Wedding Invitation
+# Rachana & Vinay — Wedding Invitation
 
-A simple, mobile-friendly wedding invitation built as a static GitHub Pages website.
+This version follows the uploaded reference implementation.
+
+## Exactly 4 screens
+
+1. Opening
+2. Page 1
+3. Page 2
+4. Page 3
+
+The opening is a full-screen artwork. Tapping/clicking anywhere opens the invitation.
+
+Pages 1–3 use full-screen vertical scroll snapping so each page occupies one viewport at a time. The reference implementation also uses the original artwork without image compression.
 
 ## Files
 
-- `index.html` — main invitation page and navigation logic.
-- `opening.png` — opening page artwork.
-- `page1.png` — names and wedding date.
-- `page2.png` — ceremony, reception, venue and Google Maps link.
-- `page3.png` — invitation message.
+- `index.html`
+- `opening.png`
+- `page1.png`
+- `page2.png`
+- `page3.png`
+- `README.md`
 
-## Details
+## Page 2 location
 
-- Opening artwork is shown as the first screen and requires a tap/click to enter.
-- Page 1, Page 2 and Page 3 use the final generated artwork supplied for the invitation.
-- Pages use vertical scroll snapping for a one-page-at-a-time experience.
-- `View Location` on Page 2 opens GNR Kalyana Mantapa, Jayanagar, Bengaluru in Google Maps.
-- No external JavaScript libraries or animation libraries are required.
-- The artwork files are kept at their original quality; no image compression is applied by the website.
+The transparent View Location hit area opens:
+
+GNR Kalyana Mantapa, Jayanagar, Bengaluru
 
 ## GitHub Pages
 
-Keep all files in the same repository directory, with `index.html` at the publishing root:
+Upload all six files to the repository root, then:
 
-```text
-/
-├── index.html
-├── opening.png
-├── page1.png
-├── page2.png
-├── page3.png
-└── README.md
-```
+Settings → Pages → Deploy from a branch → `main` → `/ (root)` → Save.
