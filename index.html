@@ -115,15 +115,19 @@
     .page-guide {
       position: absolute;
       left: 50%;
-      bottom: max(12px, env(safe-area-inset-bottom));
+      bottom: max(10px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
       z-index: 20;
-      color: #fff;
+      padding: 7px 12px;
+      border-radius: 2px;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #75665d;
       font: 11px/1 Arial, sans-serif;
       letter-spacing: .18em;
       text-align: center;
       white-space: nowrap;
-      text-shadow: 0 1px 8px rgba(0,0,0,.32);
       pointer-events: none;
       opacity: 0;
       transition: opacity .35s ease;
@@ -131,14 +135,6 @@
 
     .page.active .page-guide {
       opacity: 1;
-    }
-
-    .page-guide .guide-arrow {
-      display: block;
-      font-size: 20px;
-      line-height: 15px;
-      margin-top: 3px;
-      letter-spacing: 0;
     }
 
     .opening-guide {
@@ -258,7 +254,6 @@
       >
       <div class="page-guide" aria-hidden="true">
         SCROLL DOWN
-        <span class="guide-arrow">↓</span>
       </div>
     </section>
 
@@ -279,7 +274,6 @@
       ></a>
       <div class="page-guide" aria-hidden="true">
         SCROLL DOWN
-        <span class="guide-arrow">↓</span>
       </div>
     </section>
 
