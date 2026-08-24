@@ -7,7 +7,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Rachana & Vinay — Wedding Invitation</title>
-  <link rel="preload" as="image" href="opening.png">
 
   <!-- Load the opening artwork first because it is the first screen visitors see. -->
   <link rel="preload" as="image" href="opening.png">
@@ -112,27 +111,48 @@
     }
 
 
-    /* Subtle mobile scroll guidance. */
-    .scroll-hint {
-      position: fixed;
-      z-index: 30;
+    /* Page-specific guidance: shown only while that page is active. */
+    .page-guide {
+      position: absolute;
       left: 50%;
-      bottom: max(10px, env(safe-area-inset-bottom));
+      bottom: max(12px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      z-index: 20;
+      color: #fff;
       font: 11px/1 Arial, sans-serif;
       letter-spacing: .18em;
-      color: #75665d;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 1px 8px rgba(0,0,0,.32);
       pointer-events: none;
-      transition: opacity .4s ease;
+      opacity: 0;
+      transition: opacity .35s ease;
     }
 
-    @media (min-width: 700px) {
-      .scroll-hint { display: none; }
+    .page.active .page-guide {
+      opacity: 1;
+    }
+
+    .page-guide .guide-arrow {
+      display: block;
+      font-size: 20px;
+      line-height: 15px;
+      margin-top: 3px;
+      letter-spacing: 0;
+    }
+
+    .opening-guide {
+      position: absolute;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      z-index: 20;
+      color: #fff;
+      font: 11px/1 Arial, sans-serif;
+      letter-spacing: .18em;
+      white-space: nowrap;
+      text-shadow: 0 1px 8px rgba(0,0,0,.35);
+      pointer-events: none;
     }
 
     /* Opening page: static artwork. No animation is used. */
@@ -223,7 +243,9 @@
 <body>
   <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
     <img class="opening-art" src="opening.png" alt="">
-    <button class="opening-hit" type="button" aria-label="Tap to open invitation"></button>
+    <button class="opening-hit" type="button" aria-label="Tap anywhere to open invitation">
+      <span class="opening-guide" aria-hidden="true">TAP ANYWHERE</span>
+    </button>
   </div>
 
   <main id="invitation">
@@ -234,6 +256,10 @@
         alt="Rachana and Vinay wedding invitation"
         decoding="async"
       >
+      <div class="page-guide" aria-hidden="true">
+        SCROLL DOWN
+        <span class="guide-arrow">↓</span>
+      </div>
     </section>
 
     <section class="page" id="page2">
@@ -249,6 +275,10 @@
         href="https://www.google.com/maps/search/?api=1&query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru"
         aria-label="Open GNR Kalyana Mantapa in Google Maps"
       ></a>
+      <div class="page-guide" aria-hidden="true">
+        SCROLL DOWN
+        <span class="guide-arrow">↓</span>
+      </div>
     </section>
 
     <section class="page" id="page3">
@@ -260,8 +290,6 @@
       >
     </section>
   </main>
-
-  <div class="scroll-hint" id="scrollHint">SCROLL DOWN ↓</div>
 
   <script>
     (() => {
@@ -309,15 +337,6 @@
       );
 
       pages.forEach((page) => observer.observe(page));
-
-      const scrollHint = document.getElementById("scrollHint");
-      function hideScrollHint() {
-        if (!scrollHint) return;
-        scrollHint.style.opacity = "0";
-        setTimeout(() => { scrollHint.style.display = "none"; }, 500);
-      }
-      invitation.addEventListener("scroll", hideScrollHint, { passive: true });
-      invitation.addEventListener("touchstart", hideScrollHint, { passive: true });
 
       const mapHit = document.querySelector(".map-hit");
       mapHit.addEventListener("touchstart", (event) => {
