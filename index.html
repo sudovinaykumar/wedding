@@ -84,10 +84,10 @@
 
     .map-hit {
       position: absolute;
-      left: 31%;
-      top: 68%;
-      width: 39%;
-      height: 14%;
+      left: 24%;
+      top: 75%;
+      width: 52%;
+      height: 10%;
       display: block;
       background: transparent;
       border: 0;
@@ -157,6 +157,13 @@
 
       .page.active .page-art { transform: scale(1.08); }
 
+      #page2 .map-hit {
+        left: 22%;
+        top: 76%;
+        width: 56%;
+        height: 9%;
+      }
+
       #page3 .page-art {
         filter: drop-shadow(0 0 1px rgba(105, 83, 70, 0.10));
       }
@@ -180,11 +187,19 @@
       }
 
       .page.active .page-art { transform: scale(1); }
+
+      #page2 .map-hit {
+        left: 31%;
+        top: 75%;
+        width: 38%;
+        height: 9%;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       #invitation { scroll-behavior: auto; }
       .page-art { transition: none; }
+      .prompt-chevron { animation: none; }
     }
   </style>
 </head>
@@ -192,7 +207,14 @@
 <body>
   <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
     <img class="opening-art" src="opening.png" alt="">
-    <button class="opening-hit" type="button" aria-label="Tap to open invitation"></button>
+    <button class="opening-hit" type="button" aria-label="Tap to open invitation">
+      <span class="opening-prompt" aria-hidden="true">
+        <span class="prompt-main">TAP TO OPEN</span>
+        <span class="prompt-line"></span>
+        <span class="prompt-sub">scroll down to explore</span>
+        <span class="prompt-chevron">⌄</span>
+      </span>
+    </button>
   </div>
 
   <main id="invitation">

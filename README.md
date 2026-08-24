@@ -24,7 +24,7 @@ Pages 1–3 use full-screen vertical scroll snapping so each page occupies one v
 
 ## Page 2 location
 
-The transparent View Location hit area opens:
+The transparent View Location hit area is aligned to the lower location label and is responsive for phone and desktop layouts. It opens:
 
 GNR Kalyana Mantapa, Jayanagar, Bengaluru
 
