@@ -89,10 +89,10 @@
     /* Transparent clickable area over the existing VIEW LOCATION artwork. */
     .map-hit {
       position: absolute;
-      left: 54.7%;
-      top: 79%;
-      width: 27%;
-      height: 5%;
+      left:54.7%;
+      top:79%;
+      width:27%;
+      height:5%;
       display: block;
       background: transparent;
       border: 0;
@@ -112,15 +112,15 @@
     }
 
 
-    /* Subtle mobile scroll guidance. */
+    /* Page-specific scroll guidance. */
     .scroll-hint {
-      position: fixed;
+      position: absolute;
       z-index: 30;
       left: 50%;
       bottom: max(10px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
       padding: 7px 12px;
-      border-radius: 999px;
+      border-radius: 2px;
       background: rgba(255,255,255,.72);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -128,7 +128,13 @@
       letter-spacing: .18em;
       color: #75665d;
       pointer-events: none;
+      opacity: 0;
       transition: opacity .4s ease;
+      white-space: nowrap;
+    }
+
+    .page.active .scroll-hint {
+      opacity: 1;
     }
 
     @media (min-width: 700px) {
@@ -178,6 +184,19 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    .opening-tap {
+      position: absolute;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      color: #fff;
+      font: 11px/1 Arial, sans-serif;
+      letter-spacing: .18em;
+      white-space: nowrap;
+      text-shadow: 0 1px 8px rgba(0,0,0,.35);
+      pointer-events: none;
+    }
+
     /* Phone layout: fill the screen vertically while preserving the artwork itself. */
     @media (max-width: 699px) {
       .page-art {
@@ -216,6 +235,7 @@
     @media (prefers-reduced-motion: reduce) {
       #invitation { scroll-behavior: auto; }
       .page-art { transition: none; }
+      .scroll-hint, .opening-tap { transition: none; }
     }
   </style>
 </head>
@@ -223,7 +243,9 @@
 <body>
   <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
     <img class="opening-art" src="opening.png" alt="">
-    <button class="opening-hit" type="button" aria-label="Tap to open invitation"></button>
+    <button class="opening-hit" type="button" aria-label="Tap anywhere to open invitation">
+      <span class="opening-tap" aria-hidden="true">TAP ANYWHERE</span>
+    </button>
   </div>
 
   <main id="invitation">
@@ -234,6 +256,7 @@
         alt="Rachana and Vinay wedding invitation"
         decoding="async"
       >
+      <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
     </section>
 
     <section class="page" id="page2">
@@ -249,6 +272,7 @@
         href="https://www.google.com/maps/search/?api=1&query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru"
         aria-label="Open GNR Kalyana Mantapa in Google Maps"
       ></a>
+      <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
     </section>
 
     <section class="page" id="page3">
@@ -309,15 +333,6 @@
       );
 
       pages.forEach((page) => observer.observe(page));
-
-      const scrollHint = document.getElementById("scrollHint");
-      function hideScrollHint() {
-        if (!scrollHint) return;
-        scrollHint.style.opacity = "0";
-        setTimeout(() => { scrollHint.style.display = "none"; }, 500);
-      }
-      invitation.addEventListener("scroll", hideScrollHint, { passive: true });
-      invitation.addEventListener("touchstart", hideScrollHint, { passive: true });
 
       const mapHit = document.querySelector(".map-hit");
       mapHit.addEventListener("touchstart", (event) => {
