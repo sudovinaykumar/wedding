@@ -1,8 +1,8 @@
-# Rachana & Vinay Wedding Invitation
+# Rachana & Vinay Wedding Invitation — Location Fixed
 
-Same design as the previous version, with a slower, softer page transition.
+Baseline: `rachana-vinay-page-guidance-fixed`.
 
-- Opening → Page 1 → Page 2 → Page 3
-- Page-specific TAP/SCROLL guidance retained
-- Small-to-big artwork animation slowed slightly
-- Scroll snap remains enabled
+Only Page 2 location behavior was corrected:
+- The transparent hotspot is aligned to the visible View Location area.
+- Tapping View Location opens the GNR Kalyana Mantapa location in Google Maps.
+- The rest of the invitation, scroll guidance, opening page, and animations are unchanged.
