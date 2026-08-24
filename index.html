@@ -88,10 +88,10 @@
     /* Transparent clickable area over the existing VIEW LOCATION artwork. */
     .map-hit {
       position: absolute;
-      left:54.7%;
-      top:79%;
-      width:27%;
-      height:5%;
+      left: 54.7%;
+      top: 79%;
+      width: 27%;
+      height: 5%;
       display: block;
       background: transparent;
       border: 0;
@@ -115,19 +115,15 @@
     .page-guide {
       position: absolute;
       left: 50%;
-      bottom: max(10px, env(safe-area-inset-bottom));
+      bottom: max(12px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
       z-index: 20;
-      padding: 7px 12px;
-      border-radius: 2px;
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #75665d;
+      color: #fff;
       font: 11px/1 Arial, sans-serif;
       letter-spacing: .18em;
       text-align: center;
       white-space: nowrap;
+      text-shadow: 0 1px 8px rgba(0,0,0,.32);
       pointer-events: none;
       opacity: 0;
       transition: opacity .35s ease;
@@ -135,6 +131,14 @@
 
     .page.active .page-guide {
       opacity: 1;
+    }
+
+    .page-guide .guide-arrow {
+      display: block;
+      font-size: 20px;
+      line-height: 15px;
+      margin-top: 3px;
+      letter-spacing: 0;
     }
 
     .opening-guide {
@@ -254,6 +258,7 @@
       >
       <div class="page-guide" aria-hidden="true">
         SCROLL DOWN
+        <span class="guide-arrow">↓</span>
       </div>
     </section>
 
@@ -268,12 +273,11 @@
       <a
         class="map-hit"
         href="https://www.google.com/maps/search/?api=1&query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru"
-        target="_blank"
-        rel="noopener noreferrer"
         aria-label="Open GNR Kalyana Mantapa in Google Maps"
       ></a>
       <div class="page-guide" aria-hidden="true">
         SCROLL DOWN
+        <span class="guide-arrow">↓</span>
       </div>
     </section>
 
