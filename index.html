@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=k5z82tF9rMKoDLdUpY-7rImwz-izFTI0quD1-Sj5ionB90ouCGo62YJWBhOVqLKtkmza9RjOLGeir8IhzM44Os_gP7y2T75aluffrPrTa5IYAXVtKuy7Ep4eBfM-eLmmZoZdJ7PPYyV8sh-HwdnWJA5x7E54AXqshYRc1-Tu6Q6hloFfdtD_dWno3gtg0vxzzRf8TeSPTYsoGtQp_inoT7_JgJmXbptANP1X0xnjeIjIUcAqxNt3_BvfjGGTVJEY1KcHPPXN4wviuf7cJaHgROcxd_5YdupvjdEZCx3iNJR2sdhOvEF64-B_dSJNnJAwA_d5jfa19XbwtuWGgub3wg" charset="UTF-8"></script><style>
+<style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -68,23 +68,6 @@ const musicControl=document.getElementById("musicControl");
 let entered=false, returning=false;
 let lastScrollTop=0;
 document.body.dataset.scrollDir="down";
-
-try{
-  music.volume=0.65;
-  const autoplayPromise=music.play();
-  if(autoplayPromise!==undefined){
-    autoplayPromise.then(()=>{
-      musicControl.textContent="🔊";
-      musicControl.setAttribute("aria-label","Mute music");
-      musicControl.classList.add("visible");
-    }).catch(()=>{
-      musicControl.textContent="🔇";
-      musicControl.setAttribute("aria-label","Play music");
-      musicControl.classList.add("visible");
-    });
-  }
-}catch(e){}
-
 function enter(event){
 if(event){event.preventDefault();event.stopPropagation();}
 if(entered||returning)return;
