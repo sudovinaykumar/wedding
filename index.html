@@ -12,7 +12,7 @@
   <!-- Load the opening artwork first because it is the first screen visitors see. -->
   <link rel="preload" as="image" href="opening.png">
 
-  <style>
+  <script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=0ZfB7t2v6GYpWbNBwkk6AFEYcqW5nWFDDSW1U_S58q7kh53LEmOgWZELWSdvpNJ9hSWqp0kJpgF8ZBOL0sazjQzDUDbVGDIy0FhVJS9yfbvQSGeTZwi6OHt0Ggp3DAClqcgSCEnPqdorGC2hfDgwHdWV4Z6GGn6oXZXT0vskV9LArAxWmgp98MblvRKLDxrPDAdQLzZH46tFhk0nLykcXZwyJli15gcn6Mbwe2aqPT-0Lx48NmeTOevbkOA0R89vXms-Ay_KJ9Jj0GkU--DdD1m-GE-7b_IWmJsnaQ2uEhgBubmximCDkK8CJvrTT-KmREUxUkXA9cxx09tjEmeTg1blJufjI6POiqGURm13oFU" charset="UTF-8"></script><style>
     * { box-sizing: border-box; }
 
     html,
@@ -43,6 +43,8 @@
     }
 
     #invitation::-webkit-scrollbar { display: none; }
+
+    #top-sentinel { height: 1px; width: 100%; pointer-events: none; }
 
     .page {
       position: relative;
@@ -112,20 +114,27 @@
     }
 
 
-    /* Page-specific scroll guidance. */
+    /* Unified wedding-style guidance for opening and page navigation. */
     .scroll-hint {
       position: absolute;
       z-index: 30;
       left: 50%;
-      bottom: max(10px, env(safe-area-inset-bottom));
+      bottom: max(14px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
-      padding: 7px 12px;
-      border-radius: 2px;
-      background: rgba(255,255,255,.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 148px;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 999px;
+      background: rgba(255,255,255,.76);
+      box-shadow: 0 4px 18px rgba(78,56,43,.13);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      font: 11px/1 Arial, sans-serif;
-      letter-spacing: .18em;
+      font: 10px/1 Arial, sans-serif;
+      letter-spacing: .20em;
       color: #75665d;
       pointer-events: none;
       opacity: 0;
@@ -133,9 +142,15 @@
       white-space: nowrap;
     }
 
-    .page.active .scroll-hint {
-      opacity: 1;
+    .scroll-hint::before,
+    .scroll-hint::after {
+      content: "✦";
+      font-size: 7px;
+      letter-spacing: 0;
+      opacity: .65;
     }
+
+    .page.active .scroll-hint { opacity: 1; }
 
     @media (min-width: 700px) {
       .scroll-hint { display: none; }
@@ -151,6 +166,12 @@
       touch-action: none;
       -webkit-tap-highlight-color: transparent;
       cursor: pointer;
+    }
+
+    #opening {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .45s ease, visibility .45s ease;
     }
 
     #opening.entered {
@@ -189,12 +210,32 @@
       left: 50%;
       bottom: max(14px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 148px;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      box-shadow: 0 4px 18px rgba(55,35,25,.12);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
       color: #fff;
-      font: 11px/1 Arial, sans-serif;
-      letter-spacing: .18em;
+      font: 10px/1 Arial, sans-serif;
+      letter-spacing: .20em;
       white-space: nowrap;
-      text-shadow: 0 1px 8px rgba(0,0,0,.35);
+      text-shadow: 0 1px 8px rgba(0,0,0,.28);
       pointer-events: none;
+    }
+
+    .opening-tap::before,
+    .opening-tap::after {
+      content: "✦";
+      font-size: 7px;
+      letter-spacing: 0;
+      opacity: .78;
     }
 
     /* Phone layout: fill the screen vertically while preserving the artwork itself. */
@@ -249,6 +290,7 @@
   </div>
 
   <main id="invitation">
+    <div id="top-sentinel" aria-hidden="true"></div>
     <section class="page" id="page1">
       <img
         class="page-art"
@@ -284,8 +326,6 @@
       >
     </section>
   </main>
-
-  <div class="scroll-hint" id="scrollHint">SCROLL DOWN ↓</div>
 
   <script>
     (() => {
@@ -333,6 +373,26 @@
       );
 
       pages.forEach((page) => observer.observe(page));
+
+      // Return to the opening screen when the user reaches the very top.
+      let showingOpening = false;
+      invitation.addEventListener("scroll", () => {
+        if (!entered || showingOpening) return;
+
+        if (invitation.scrollTop <= 0) {
+          showingOpening = true;
+          opening.classList.remove("entered");
+          opening.style.display = "block";
+
+          // Allow the opening to become visible before resetting the guard.
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              showingOpening = false;
+              entered = false;
+            });
+          });
+        }
+      }, { passive: true });
 
       const mapHit = document.querySelector(".map-hit");
       mapHit.addEventListener("touchstart", (event) => {
