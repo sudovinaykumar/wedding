@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=J-IMOkUX_5g8h1EbgxpQBuSpoBR2lsQGlvG0SUyIdpQHPiBxBhR1aNWI_ZKcStR8dkkoM1Jo9HRhZW99HlVPdAw5lCnucNnOnmN3Y6_XT9IKhK67C5mM_pvr5AEuSWbtpoMjfCCEwDR7KBqaudXHdx5RNWDDFq0gsKnCCq07eLiPnktAFtuhCg2MfHK1YMdRwVa0s2LYT0vbBw2ccAKkBJrjkMn6f_eve3mCO8LE_7fjXIzuKH5XZLwacrdBFNJ1h8_lL9_7K2ipRzRtajl9rQbC7Hq_HAh49mv9Hx1hjSnWcNX2XaXZSEMNxDGJYrYyFqm5mXBQO0_xqADp7jlFLA" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=tZUjIATBlFmTEBufJL0J_Q70uqobUefNExdrzx0kUVWU0lXq8LRft_C0qUSg-2D2Jmv7e4j02yZCqSMTA8NVz8Fh6Rroj0sG7pOfwLSGjWMnfb4JlSh_JJElFBreLjEn5f4a62rj04bUM48yuK1BEqYwKm9o-8GHZ2eKxKs1FJd3v6pHHUxax-hngOlZD14S_ydaZWyngIAIDfRQWTud_xh8L3ZAiLTQPXkEh_9RvOVo36h4ZGmojoID4DfP4QHopSMl8HlKtr4Z54Cqzigm2VJQmosp0QHBA4Fd3mFeArNAF1nruB9-lRAV4t-NdfGQB6whx_GiJOrcgYqvFma7xw" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -31,7 +31,7 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 </head>
 <body>
 
-<audio id="weddingMusic" preload="none" loop>
+<audio id="weddingMusic" preload="metadata" autoplay loop>
 
 </audio>
 <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
@@ -103,6 +103,19 @@ lastScrollTop=0;
 document.body.dataset.scrollDir="down";
 pages.forEach((page,i)=>page.classList.toggle("active",i===0));
 }
+// Try to start the wedding music immediately on page load.
+music.volume=0.65;
+music.play().then(()=>{
+  musicControl.textContent="🔊";
+  musicControl.setAttribute("aria-label","Mute music");
+  musicControl.classList.add("visible");
+}).catch(()=>{
+  // Audible autoplay is blocked by many browsers until the visitor interacts.
+  musicControl.classList.add("visible");
+  musicControl.textContent="🔇";
+  musicControl.setAttribute("aria-label","Play music");
+});
+
 opening.addEventListener("click",enter);
 opening.addEventListener("touchend",enter,{passive:false});
 opening.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")enter(event);});
