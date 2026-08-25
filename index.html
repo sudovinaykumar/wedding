@@ -14,10 +14,9 @@ body{overscroll-behavior:none}
 .page{position:relative;width:100%;height:100dvh;min-height:100dvh;max-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always;background:#f7e8de}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.94);opacity:.72;transform-origin:center;transition:transform 900ms cubic-bezier(.22,.61,.36,1),opacity 650ms ease;will-change:transform,opacity}
 .page.active .page-art{transform:scale(1);opacity:1}
-.map-hit{position:absolute;left:54.7%;top:79%;width:27%;height:5%;display:block;background:transparent;border:0;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
+.map-hit{position:absolute;left:56%;top:79.2%;width:23%;height:3.6%;display:block;background:transparent;border:0;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
 .scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;gap:8px;min-width:148px;padding:8px 18px;border:1px solid rgba(255,255,255,.72);border-radius:999px;letter-spacing:.20em;font:10px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.76);box-shadow:0 4px 18px rgba(78,56,43,.13);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
-.scroll-hint::before,.scroll-hint::after,.opening-tap::before,.opening-tap::after{content:"✦";font-size:7px;letter-spacing:0;opacity:.65}
 .page.active .scroll-hint{opacity:1}
 #opening{position:fixed;inset:0;z-index:2000;overflow:hidden;background:#f4ded2;touch-action:none;-webkit-tap-highlight-color:transparent;cursor:pointer;opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
 #opening.entered{opacity:0;visibility:hidden;pointer-events:none}
@@ -43,7 +42,7 @@ body{overscroll-behavior:none}
 </section>
 <section class="page" id="page2">
 <img class="page-art" src="page2.png" alt="Wedding ceremony, reception and venue details" decoding="async">
-<a class="map-hit" href="https://www.google.com/maps/search/?api=1&amp;query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru" target="_blank" rel="noopener noreferrer" aria-label="Open GNR Kalyana Mantapa in Google Maps"></a>
+<a class="map-hit" href="https://www.google.com/maps/search/?api=1&amp;query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru" target="_blank" rel="noopener noreferrer" aria-label="View location in Google Maps"></a>
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page3">
@@ -86,11 +85,6 @@ entered=false;returning=false;
 }));
 }
 },{passive:true});
-const mapHit=document.querySelector(".map-hit");
-if(mapHit){
-mapHit.addEventListener("touchstart",event=>event.stopPropagation(),{passive:true});
-mapHit.addEventListener("click",event=>event.stopPropagation());
-}
 })();
 </script>
 </body>
