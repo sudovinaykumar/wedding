@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=TiTvHp6AjlzIOAEiDYC8dc0FXKVygjzlRb9Nkz5S-V4MpbSmqpfh67fcwaHs8wisyLdnqLJEV_oQ4ISMui2hORc3IHENMjs1Ocq_EceSareQCrubt9yxxUnAbEUHTGCOTqupkAjMsRD1v1JQlcqWr_AID-slXa37IkQuxOxO-RUBeDHZGjNJouVs1xOmeIm91SLpO1K15w7x9ib7vtA4Atxa-wsNlcGW7T_aJd21ZHNk9OrE8v-FMISAp2pHVD6IGJljG0HWkmmSFk6-T1n6lowxTreP_KViz_Gf_U3X_YwpmxPp8_89y-6FlcuQBGoax-S-AhKitJzkrpIKaKh6wg" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=khQl6XMKx1ihB8RjGah_xkkzUR7yEA4Hh0UjUHe5-2WeYIDFIThM23-Ai7XQ2RmcF0Yw-SqkfuyWuEaNu_gnnNXsth_VfTFiBHrKNR7niIlqs2YRptYTqrqHNvrTakkY7KA4uHpl_nY0CGXwrdp03fwraD7LywaWXirUwofKlv5yIdQMHc6rr7ik0mqWM5dn6KTbyZaLgIURlx2TW3KRXaR-Jt68kXq_9JXLRLyXUHP2KuJYb5lxiajD55twdYGhfr5Cd6laLeM1YeIqnOAAiwOJuIeI3ZdjWludNVJMJieX_dGtpl2coP8fBCvhRL6mUsEjai4IMjv9918A0yjxyA" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -14,7 +14,7 @@ body{overscroll-behavior:none}
 .page{position:relative;width:100%;height:100dvh;min-height:100dvh;max-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always;background:#f7e8de}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.94);opacity:.72;transform-origin:center;transition:transform 900ms cubic-bezier(.22,.61,.36,1),opacity 650ms ease;will-change:transform,opacity}
 .page.active .page-art{transform:scale(1);opacity:1}
-.map-hit{position:absolute;left:57.5%;top:81.1%;width:20%;height:2.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
+.map-hit{position:absolute;left:57.5%;top:81.1%;width:20%;height:2.6%;display:block;background:transparent;border:0;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
 .scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:118px;padding:6px 13px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.16em;font:9px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.72);box-shadow:0 3px 14px rgba(78,56,43,.11);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
@@ -26,7 +26,20 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 .opening-tap{position:absolute;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.22);box-shadow:0 3px 14px rgba(55,35,25,.10);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.28);pointer-events:none}
 @media(max-width:699px){.page-art{height:92%;transform:scale(.98)}.page.active .page-art{transform:scale(1.08)}#page3 .page-art{filter:drop-shadow(0 0 1px rgba(105,83,70,.10))}#page3.active .page-art{transform:scale(1.02)}}
 @media(min-width:700px){.page-art{width:100%;height:100%;object-fit:contain;transform:scale(.94)}.page.active .page-art{transform:scale(1)}.scroll-hint{display:none}}
-@media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.page-art,#opening,.scroll-hint,#musicControl{transition:none}}
+@media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.page-art,#opening,.scroll-hint{transition:none}}
+
+#musicControl{
+position:fixed;right:max(16px,env(safe-area-inset-right));
+bottom:max(16px,env(safe-area-inset-bottom));z-index:2500;
+width:42px;height:42px;border:0;border-radius:50%;
+background:rgba(255,255,255,.78);color:#75665d;
+box-shadow:0 3px 14px rgba(55,35,25,.14);
+backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+font-size:18px;line-height:42px;padding:0;cursor:pointer;
+opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease
+}
+#musicControl.visible{opacity:1;visibility:visible}
+
 </style>
 </head>
 <body>
@@ -54,8 +67,7 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 <img class="page-art" src="page3.png" alt="With Love — Rachana and Vinay Kumar" decoding="async">
 </section>
 </main>
-
-<button id="musicControl" type="button" aria-label="Mute music" title="Mute / unmute music">🔊</button>
+<button id="musicControl" type="button" aria-label="Play music" title="Mute / unmute music">🔇</button>
 <script>
 (function(){
 "use strict";
@@ -63,8 +75,6 @@ const opening=document.getElementById("opening");
 const invitation=document.getElementById("invitation");
 const pages=[...document.querySelectorAll(".page")];
 const hit=opening.querySelector(".opening-hit");
-const music=document.getElementById("weddingMusic");
-const musicControl=document.getElementById("musicControl");
 let entered=false, returning=false;
 let lastScrollTop=0;
 document.body.dataset.scrollDir="down";
@@ -73,29 +83,14 @@ if(event){event.preventDefault();event.stopPropagation();}
 if(entered||returning)return;
 entered=true;
 
-try{
-  if(!music.querySelector("source")){
-    const source=document.createElement("source");
-    source.src="thousand_years.mp3";
-    source.type="audio/mpeg";
-    music.appendChild(source);
-    music.load();
-  }
-
-  music.volume=0.65;
-  const playPromise=music.play();
-  if(playPromise!==undefined){
-    playPromise.then(()=>{
-      musicControl.textContent="🔊";
-      musicControl.setAttribute("aria-label","Mute music");
-      musicControl.classList.add("visible");
-    }).catch(()=>{
-      musicControl.textContent="🔇";
-      musicControl.setAttribute("aria-label","Play music");
-      musicControl.classList.add("visible");
-    });
-  }
-}catch(e){}
+music.volume=.65;
+music.play().then(()=>{
+musicControl.textContent="🔊";
+musicControl.setAttribute("aria-label","Mute music");
+musicControl.classList.add("visible");
+}).catch(()=>{
+musicControl.classList.add("visible");
+});
 
 opening.classList.add("entered");
 invitation.scrollTo({top:0,left:0,behavior:"auto"});
@@ -103,45 +98,23 @@ lastScrollTop=0;
 document.body.dataset.scrollDir="down";
 pages.forEach((page,i)=>page.classList.toggle("active",i===0));
 }
-// Try to start the wedding music immediately on page load.
-music.volume=0.65;
-music.play().then(()=>{
-  musicControl.textContent="🔊";
-  musicControl.setAttribute("aria-label","Mute music");
-  musicControl.classList.add("visible");
-}).catch(()=>{
-  // Audible autoplay is blocked by many browsers until the visitor interacts.
-  musicControl.classList.add("visible");
-  musicControl.textContent="🔇";
-  musicControl.setAttribute("aria-label","Play music");
-});
-
 opening.addEventListener("click",enter);
 opening.addEventListener("touchend",enter,{passive:false});
 opening.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")enter(event);});
 hit.addEventListener("click",enter);
 hit.addEventListener("touchend",enter,{passive:false});
 musicControl.addEventListener("click",event=>{
-  event.preventDefault();
-  event.stopPropagation();
-
-  if(music.paused){
-    if(!music.querySelector("source")){
-      const source=document.createElement("source");
-      source.src="thousand_years.mp3";
-      source.type="audio/mpeg";
-      music.appendChild(source);
-      music.load();
-    }
-    music.play().then(()=>{
-      musicControl.textContent="🔊";
-      musicControl.setAttribute("aria-label","Mute music");
-    }).catch(()=>{});
-  }else{
-    music.pause();
-    musicControl.textContent="🔇";
-    musicControl.setAttribute("aria-label","Play music");
-  }
+event.preventDefault();event.stopPropagation();
+if(music.paused){
+music.play().then(()=>{
+musicControl.textContent="🔊";
+musicControl.setAttribute("aria-label","Mute music");
+});
+}else{
+music.pause();
+musicControl.textContent="🔇";
+musicControl.setAttribute("aria-label","Play music");
+}
 });
 
 const observer=new IntersectionObserver(entries=>{
