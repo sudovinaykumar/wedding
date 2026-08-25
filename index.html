@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=2bVnYrMK4P5RuU4aAzHv6LXDM21TmAkpRhXMCEGG4QbLTe0-qtg6OKC8tvJ7xDPvR9iszEepYIkenpZNGpbRRLSI4yX58GYwpoZrg_LjZicwWineMCh8RvBbo8Z0drhVyO4hxtwRcE2AwbYVKoGstW55451bQCNBP3tWv68Bzgci0JwR1d76DjcBtOSUkt76gSbyuS5AQNlqUrYRaB0LAV9vhvUPXDJLcYZ3b3lNrAgDgYmTF41hBSec-26k1MfwHpN6Wb-dMuPUy-8EN4qTFLkrtmMAn3XdbsUFLbWApqy93QYhfpGbQrjHLMBBt-S0Ng3vtWCLLza8V9EPfO2MFQ" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -14,7 +14,11 @@ body{overscroll-behavior:none}
 .page{position:relative;width:100%;height:100dvh;min-height:100dvh;max-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always;background:#f7e8de}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.94);opacity:.72;transform-origin:center;transition:transform 900ms cubic-bezier(.22,.61,.36,1),opacity 650ms ease;will-change:transform,opacity}
 .page.active .page-art{transform:scale(1);opacity:1}
-.map-hit{position:absolute;left:57.5%;top:81.1%;width:20%;height:2.6%;display:block;background:transparent;border:0;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
+.page2-art-wrap{position:relative;width:min(100vw,66.6667dvh);height:min(100dvh,150vw);display:flex;align-items:center;justify-content:center;flex:none}
+.page2-art-wrap .page-art{width:100%;height:100%;object-fit:contain;transform:none;opacity:.72}
+.page2-art-wrap .map-hit{position:absolute;left:36.2%;top:86.4%;width:27.4%;height:4.6%;display:block;background:transparent;border:0;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation;z-index:5}
+.page2-art-wrap .map-hit:focus,.page2-art-wrap .map-hit:focus-visible,.page2-art-wrap .map-hit:active{outline:none!important;box-shadow:none!important}
+.page.active .page2-art-wrap .page-art{transform:none;opacity:1}
 .scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:118px;padding:6px 13px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.16em;font:9px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.72);box-shadow:0 3px 14px rgba(78,56,43,.11);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
@@ -24,8 +28,8 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 .opening-art{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;object-position:center;transform:translate(-50%,-50%);display:block;pointer-events:none;user-select:none;-webkit-user-drag:none}
 .opening-hit{position:absolute;inset:0;z-index:10;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .opening-tap{position:absolute;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.22);box-shadow:0 3px 14px rgba(55,35,25,.10);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.28);pointer-events:none}
-@media(max-width:699px){.page-art{height:92%;transform:scale(.98)}.page.active .page-art{transform:scale(1.08)}#page3 .page-art{filter:drop-shadow(0 0 1px rgba(105,83,70,.10))}#page3.active .page-art{transform:scale(1.02)}}
-@media(min-width:700px){.page-art{width:100%;height:100%;object-fit:contain;transform:scale(.94)}.page.active .page-art{transform:scale(1)}.scroll-hint{display:none}}
+@media(max-width:699px){.page-art{height:92%;transform:scale(.98)}.page2-art-wrap{width:61.3333dvh;height:92dvh}.page2-art-wrap .page-art{height:100%;width:100%;transform:none}.page2-art-wrap .map-hit{left:36.2%;top:86.4%;width:27.4%;height:4.6%}.page.active .page-art{transform:scale(1.08)}#page3 .page-art{filter:drop-shadow(0 0 1px rgba(105,83,70,.10))}#page3.active .page-art{transform:scale(1.02)}}
+@media(min-width:700px){.page-art{width:100%;height:100%;object-fit:contain;transform:scale(.94)}.page2-art-wrap .page-art{transform:none;width:100%;height:100%;opacity:.72}.page.active .page-art{transform:scale(1)}.scroll-hint{display:flex}}
 @media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.page-art,#opening,.scroll-hint{transition:none}}
 </style>
 </head>
@@ -42,8 +46,10 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page2">
+<div class="page2-art-wrap">
 <img class="page-art" src="page2.png" alt="Wedding ceremony, reception and venue details" decoding="async">
 <a class="map-hit" href="https://www.google.com/maps/search/?api=1&amp;query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru" target="_blank" rel="noopener noreferrer" aria-label="View Location — open in Google Maps"></a>
+</div>
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page3">
