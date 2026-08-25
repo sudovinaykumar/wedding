@@ -76,7 +76,7 @@ entered=true;
 try{
   if(!music.querySelector("source")){
     const source=document.createElement("source");
-    source.src="Ordinary.mp3";
+    source.src="thousand_years.mp3";
     source.type="audio/mpeg";
     music.appendChild(source);
     music.load();
@@ -115,7 +115,7 @@ musicControl.addEventListener("click",event=>{
   if(music.paused){
     if(!music.querySelector("source")){
       const source=document.createElement("source");
-      source.src="Ordinary.mp3";
+      source.src="thousand_years.mp3";
       source.type="audio/mpeg";
       music.appendChild(source);
       music.load();
