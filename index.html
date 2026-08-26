@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=-HMFa7GknQ0Zid22VMvH2_zkNm9M6cFswrdlMAGkmNqX4C8hFmWAH5cJmVmss_tCdfkqTDDwYJ_33iBAmgfQ2LrnOkFy1iZNFtlhW5SHqPP-_zAlaBjo_G1XLrf4fXq660IYbC1Ob9DuzCCrRr3Gb_NgdP7hDhcPATDh-GThnGMET_KVEX8veWXG7z6Zyq0HVgrrCazWCJTzOIMDJoJmAhNUs4ty7aRIdnM_sVjoG-USR8rzf6oQk7DL92elEkku_cj3T-D7unE1gBorAWoTTrvkwb7s2-AnpwnWOyq7JCj3qOrLaHOI8dbIxPAqJVh66XqSzHI1Db1isRDlW36uUg" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=2bUbPiiMpVeNf_LIu0WCXugIWIK_FgZGm6IeH2ltnoU4SgWwkTxPMHen2qLyprXI4pZshHj1dH7-qq3f5Pi7zMCyiYthXtoY-C_IoyQ3Xys7nSySffy-jKJBKDZGjzLHrdXjUa0-TfnbQ75JsDWi8UJ2LaGH2YSORjpS3NL3QROnSk_ZZOESUahBXLnkBc7C6aUOzTewXXcP4IKWyY5a-nreuAmDPMbxcLOpR_tjyM3StyoLLXOucamYF_o9XAqIQejmj6P2gJRMifamGQuqY9KTnDNaRlu1YKaNYK9yu5A6HW8dTXPHSQLgDK9xiE05" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -35,29 +35,28 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 
 </audio>
 <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
-<img class="opening-art" src="opening.png?v=20260827" alt="">
+<img class="opening-art" src="opening.png" alt="">
 <button class="opening-hit" type="button" aria-label="Tap anywhere to open invitation">
 <span class="opening-tap" aria-hidden="true">TAP ANYWHERE</span>
 </button>
 </div>
 <main id="invitation">
 <section class="page" id="page1">
-<img class="page-art" src="page1.png?v=20260827" alt="Rachana and Vinay wedding invitation" decoding="async">
+<img class="page-art" src="page1.png" alt="Rachana and Vinay wedding invitation" decoding="async">
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page2">
-<img class="page-art" src="page2.png?v=20260827" alt="Wedding ceremony, reception and venue details" decoding="async">
+<img class="page-art" src="page2.png" alt="Wedding ceremony, reception and venue details" decoding="async">
 <a class="map-hit" href="https://www.google.com/maps/search/?api=1&amp;query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru" target="_blank" rel="noopener noreferrer" aria-label="View Location — open in Google Maps"></a>
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page3">
-<img class="page-art" src="page3.png?v=20260827" alt="With Love — Rachana and Vinay Kumar" decoding="async">
+<img class="page-art" src="page3.png" alt="With Love — Rachana and Vinay Kumar" decoding="async">
 </section>
 </main>
 
 <button id="musicControl" type="button" aria-label="Mute music" title="Mute / unmute music">🔊</button>
 <script>
-const CACHE_VERSION="20260827";
 (function(){
 "use strict";
 const opening=document.getElementById("opening");
@@ -94,7 +93,7 @@ entered=true;
 try{
   if(!music.querySelector("source")){
     const source=document.createElement("source");
-    source.src="thousand_years.mp3?v=20260827";
+    source.src="thousand_years.mp3";
     source.type="audio/mpeg";
     music.appendChild(source);
     music.load();
@@ -133,7 +132,7 @@ musicControl.addEventListener("click",event=>{
   if(music.paused){
     if(!music.querySelector("source")){
       const source=document.createElement("source");
-      source.src="thousand_years.mp3?v=20260827";
+      source.src="thousand_years.mp3";
       source.type="audio/mpeg";
       music.appendChild(source);
       music.load();
@@ -144,7 +143,6 @@ musicControl.addEventListener("click",event=>{
     }).catch(()=>{});
   }else{
     music.pause();
-    musicStarted=false;
     musicControl.textContent="🔇";
     musicControl.setAttribute("aria-label","Play music");
   }
