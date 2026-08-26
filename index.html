@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=2bUbPiiMpVeNf_LIu0WCXugIWIK_FgZGm6IeH2ltnoU4SgWwkTxPMHen2qLyprXI4pZshHj1dH7-qq3f5Pi7zMCyiYthXtoY-C_IoyQ3Xys7nSySffy-jKJBKDZGjzLHrdXjUa0-TfnbQ75JsDWi8UJ2LaGH2YSORjpS3NL3QROnSk_ZZOESUahBXLnkBc7C6aUOzTewXXcP4IKWyY5a-nreuAmDPMbxcLOpR_tjyM3StyoLLXOucamYF_o9XAqIQejmj6P2gJRMifamGQuqY9KTnDNaRlu1YKaNYK9yu5A6HW8dTXPHSQLgDK9xiE05" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=TVwbzFZsnZ9nDl_DqrnrxvCe8fOUD5TNWhiIWQMgzMP-5ZD4JqhT7XfYIqYBrHBHtgHkbqOGUw647ycI9gpwqYI73PY-PsX808Cbkv4VbAjvz1NKfMdQVpLeyfWptBU1jsPzBeCx4xMeL8VgTmC_fR67jcWyEB3Ua675OnBRuwiVkCl71ZhWNVVOPTKgFrH7zXG_aEiZv1WZzMQdk40YIWiWcISC_ugRgTWQIp5hUlgcals6CUGy2HkvP_nafWO4IdQSNspyc8cRwyHd-vun5kTNT9ujJGuDJ4j62Vp2l544s7ttXV2gIl2ElEZM4sBs" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -56,6 +56,15 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 </main>
 
 <button id="musicControl" type="button" aria-label="Mute music" title="Mute / unmute music">🔊</button>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).catch(function () {});
+  });
+}
+</script>
+
 <script>
 (function(){
 "use strict";
