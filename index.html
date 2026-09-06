@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7e8de">
 <title>Rachana &amp; Vinay — Wedding Invitation</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=2p6gePcYS4ricwFylDM2tNqkX32ypqQ5HbKlVAFhzjrAXYsouA7XzXCPZv_c9A4yfUqlV83_26ymUauBPjRvAX8rh15VGLUZ9Mv0I-5XtWddJCAub0H5sgx88aXQ167paWgTO2ATREdIqPFjgLMFQBDPgb8XILKs-ANnrUME3hP2Q2G9nwkt41HCfFlJtm9UQ_wf8txp8PDJegnJ7WuX9TpzMVQAknjm_P_qCyyllJFGKXwKPXQKhhYK43Y2xLcAEtk1_Gx6voNA0TI9H82YBw" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=y5_3eRZ53WY_Ta9q9pZV8yn01P_QjkFqPYvKCj5FYqs4f7SShHhh_MsXPmSc75rRQM1UuR_IBWhc7VP-DxsjHNDxc50tu2FnfnCfxR6GrCF6Nyjt8ine1WViRZbGyVKt-Av9eMqhLm3-uKX5_elmH_jYEzkK8UBG6_AMY6-fJr6dtce_c1YyuHarJwLyJ6Sfz0zmdXhPhgpI7vERZqT64tSSgBkm10bwAaKSEysRzPBCtY74XY_W7XAaug6Coo659rMaHWnPd2eIxiaOydqYSg" charset="UTF-8"></script><style>
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
@@ -14,7 +14,7 @@ body{overscroll-behavior:none}
 .page{position:relative;width:100%;height:100dvh;min-height:100dvh;max-height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always;background:#f7e8de}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 900ms cubic-bezier(.22,.61,.36,1),opacity 650ms ease;will-change:transform,opacity}
 .page.active .page-art{transform:scale(1.08);opacity:1}
-.map-hit{position:absolute;left:57.5%;top:84%;width:20%;height:3.2%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
+.map-hit{position:absolute;left:57.5%;top:81.1%;width:20%;height:2.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
 .scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:118px;padding:6px 13px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.16em;font:9px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.72);box-shadow:0 3px 14px rgba(78,56,43,.11);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
@@ -63,67 +63,42 @@ const invitation=document.getElementById("invitation");
 const pages=[...document.querySelectorAll(".page")];
 const hit=opening.querySelector(".opening-hit");
 const music=document.getElementById("weddingMusic");
-let entered=false, returning=false;
-let lastScrollTop=0;
+let entered=false, returning=false, lastScrollTop=0;
+let musicStartedByInteraction=false, musicWasPlayingBeforeHidden=false;
 document.body.dataset.scrollDir="down";
 function ensureMusicSource(){
- if(!music.querySelector("source")){const source=document.createElement("source");source.src="thousand_years.mp3";source.type="audio/mpeg";music.appendChild(source);music.load();}
+ if(!music.querySelector("source")){
+  const source=document.createElement("source");
+  source.src="thousand_years.mp3"; source.type="audio/mpeg";
+  music.appendChild(source); music.load();
+ }
 }
 function startMusic(){try{ensureMusicSource();music.volume=0.65;music.play().catch(()=>{});}catch(e){}}
+function firstInteraction(){if(musicStartedByInteraction)return;musicStartedByInteraction=true;startMusic();}
+["pointerdown","touchstart","touchmove","wheel","keydown"].forEach(type=>window.addEventListener(type,firstInteraction,{capture:true,passive:type!=="keydown"}));
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){musicWasPlayingBeforeHidden=!music.paused;if(musicWasPlayingBeforeHidden)music.pause();}
+ else if(musicWasPlayingBeforeHidden)music.play().catch(()=>{});
+});
 function enter(event){
  if(event){event.preventDefault();event.stopPropagation();}
- if(entered||returning)return;
- entered=true;startMusic();
- opening.classList.add("entered");invitation.scrollTo({top:0,left:0,behavior:"auto"});
- lastScrollTop=0;document.body.dataset.scrollDir="down";pages.forEach((page,i)=>page.classList.toggle("active",i===0));
+ if(entered||returning)return; entered=true; startMusic();
+ opening.classList.add("entered"); invitation.scrollTo({top:0,left:0,behavior:"auto"});
+ lastScrollTop=0; document.body.dataset.scrollDir="down";
+ pages.forEach((page,i)=>page.classList.toggle("active",i===0));
 }
 opening.addEventListener("click",enter);
 opening.addEventListener("touchend",enter,{passive:false});
 opening.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")enter(event);});
-hit.addEventListener("click",enter);
-hit.addEventListener("touchend",enter,{passive:false});
-
-let musicInteractionHandled=false;
-["pointerdown","touchstart","touchmove","wheel","keydown"].forEach(type=>window.addEventListener(type,()=>{if(!musicInteractionHandled){musicInteractionHandled=true;startMusic();}},{capture:true,passive:type!=="keydown"}));
-let musicWasPlaying=false;
-document.addEventListener("visibilitychange",()=>{if(document.hidden){musicWasPlaying=!music.paused;if(musicWasPlaying)music.pause();}else if(musicWasPlaying){music.play().catch(()=>{});}});
-
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>entry.target.classList.toggle("active",entry.isIntersecting&&entry.intersectionRatio>=.6));
-},{root:invitation,threshold:[.6,.8,1]});
+hit.addEventListener("click",enter); hit.addEventListener("touchend",enter,{passive:false});
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>entry.target.classList.toggle("active",entry.isIntersecting&&entry.intersectionRatio>=.6));},{root:invitation,threshold:[.6,.8,1]});
 pages.forEach(page=>observer.observe(page));
-invitation.addEventListener("scroll",()=>{
-const st=invitation.scrollTop;
-if(st>lastScrollTop)document.body.dataset.scrollDir="down";
-else if(st<lastScrollTop)document.body.dataset.scrollDir="up";
-lastScrollTop=st;
-},{passive:true});
-function returnToOpening(){
-if(!entered||returning)return;
-if(invitation.scrollTop>0)return;
-if(!pages[0].classList.contains("active"))return;
-returning=true;
-opening.style.display="block";
-opening.classList.remove("entered");
-requestAnimationFrame(()=>requestAnimationFrame(()=>{
-entered=false;returning=false;
-}));
-}
-invitation.addEventListener("wheel",event=>{
-if(invitation.scrollTop<=0&&event.deltaY<-8)returnToOpening();
-},{passive:true});
+invitation.addEventListener("scroll",()=>{const st=invitation.scrollTop;if(st>lastScrollTop)document.body.dataset.scrollDir="down";else if(st<lastScrollTop)document.body.dataset.scrollDir="up";lastScrollTop=st;},{passive:true});
+function returnToOpening(){if(!entered||returning)return;if(invitation.scrollTop>0)return;if(!pages[0].classList.contains("active"))return;returning=true;opening.style.display="block";opening.classList.remove("entered");requestAnimationFrame(()=>requestAnimationFrame(()=>{entered=false;returning=false;}));}
+invitation.addEventListener("wheel",event=>{if(invitation.scrollTop<=0&&event.deltaY<-8)returnToOpening();},{passive:true});
 let touchStartY=null;
-invitation.addEventListener("touchstart",event=>{
-touchStartY=event.touches[0].clientY;
-},{passive:true});
-invitation.addEventListener("touchmove",event=>{
-if(touchStartY===null)return;
-const dy=event.touches[0].clientY-touchStartY;
-if(invitation.scrollTop<=0&&dy>40){
-returnToOpening();
-touchStartY=null;
-}
-},{passive:true});
+invitation.addEventListener("touchstart",event=>{touchStartY=event.touches[0].clientY;},{passive:true});
+invitation.addEventListener("touchmove",event=>{if(touchStartY===null)return;const dy=event.touches[0].clientY-touchStartY;if(invitation.scrollTop<=0&&dy>40){returnToOpening();touchStartY=null;}},{passive:true});
 invitation.addEventListener("touchend",()=>{touchStartY=null;},{passive:true});
 })();
 </script>
