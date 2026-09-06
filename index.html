@@ -27,9 +27,7 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 .opening-tap{position:absolute;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(255,255,255,.22);box-shadow:0 3px 14px rgba(55,35,25,.10);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.28);pointer-events:none}
 @media(max-width:699px){.art-frame{width:min(100vw,calc(92dvh * 2 / 3));transform:scale(.90)}.page.active .art-frame{transform:scale(1.12)}#page3 .page-art{filter:drop-shadow(0 0 1px rgba(105,83,70,.10))}#page3.active .art-frame{transform:scale(1.08)}}
 @media(min-width:700px){.art-frame{width:min(100vw,calc(100dvh * 2 / 3));transform:scale(.88)}.page.active .art-frame{transform:scale(1.08)}.scroll-hint{display:none}}
-#musicControl{position:fixed;z-index:2500;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));width:38px;height:38px;border:1px solid rgba(255,255,255,.72);border-radius:50%;background:rgba(90,65,52,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease;cursor:pointer;-webkit-tap-highlight-color:transparent}
-#musicControl.visible{opacity:1;visibility:visible;pointer-events:auto}
-@media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.art-frame,#opening,.scroll-hint,#musicControl{transition:none}}
+@media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.art-frame,#opening,.scroll-hint{transition:none}}
 </style>
 </head>
 <body>
@@ -58,7 +56,6 @@ body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
 </section>
 </main>
 
-<button id="musicControl" type="button" aria-label="Mute music" title="Mute / unmute music">🔊</button>
 <script>
 (function(){
 "use strict";
@@ -67,7 +64,6 @@ const invitation=document.getElementById("invitation");
 const pages=[...document.querySelectorAll(".page")];
 const hit=opening.querySelector(".opening-hit");
 const music=document.getElementById("weddingMusic");
-const musicControl=document.getElementById("musicControl");
 let entered=false, returning=false;
 let lastScrollTop=0;
 document.body.dataset.scrollDir="down";
@@ -88,20 +84,10 @@ function startMusic(){
     const playPromise=music.play();
     if(playPromise!==undefined){
       playPromise.then(()=>{
-        musicControl.textContent="🔊";
-        musicControl.setAttribute("aria-label","Mute music");
-        musicControl.setAttribute("title","Mute music");
-        musicControl.classList.add("visible");
-      }).catch(()=>{
-        musicControl.textContent="🔇";
-        musicControl.setAttribute("aria-label","Play music");
-        musicControl.setAttribute("title","Play music");
-        musicControl.classList.add("visible");
-      });
+          }).catch(()=>{
+          });
     }
-  }catch(e){
-    musicControl.classList.add("visible");
-  }
+  }catch(e){}
 }
 function enter(event){
   if(event){event.preventDefault();event.stopPropagation();}
@@ -132,18 +118,6 @@ opening.addEventListener("touchend",enter,{passive:false});
 opening.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")enter(event);});
 hit.addEventListener("click",enter);
 hit.addEventListener("touchend",enter,{passive:false});
-musicControl.addEventListener("click",event=>{
-  event.preventDefault();
-  event.stopPropagation();
-  if(music.paused){
-    startMusic();
-  }else{
-    music.pause();
-    musicControl.textContent="🔇";
-    musicControl.setAttribute("aria-label","Play music");
-    musicControl.setAttribute("title","Play music");
-  }
-});
 
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>entry.target.classList.toggle("active",entry.isIntersecting&&entry.intersectionRatio>=.6));
