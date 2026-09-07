@@ -14,9 +14,7 @@ body{overscroll-behavior:none}
 .page{position:relative;width:100%;height:100vh;height:100svh;min-height:100vh;min-height:100svh;max-height:100vh;max-height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:normal;background:#f7e8de}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms cubic-bezier(.22,.61,.36,1);will-change:transform,opacity}
 .page.active .page-art{transform:scale(1.08);opacity:1}
-.map-hit{position:absolute;left:35.6%;top:86.1%;width:32.2%;height:4.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
-.page2-art-wrap{position:relative;aspect-ratio:1024/1536;max-width:100%;max-height:92%;display:block}
-.page2-art-wrap .page-art{width:100%;height:100%;max-width:none}
+.map-hit{position:absolute;left:57.5%;top:81.1%;width:20%;height:2.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
 .scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:118px;padding:6px 13px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.16em;font:9px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:transparent;color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
@@ -53,10 +51,8 @@ body{background:#ece0d2}
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page2">
-<div class="page2-art-wrap">
 <img class="page-art" src="page2.png" alt="Wedding ceremony, reception and venue details" decoding="async">
 <a class="map-hit" href="https://www.google.com/maps/search/?api=1&amp;query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru" target="_blank" rel="noopener noreferrer" aria-label="View Location — open in Google Maps"></a>
-</div>
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
 </section>
 <section class="page" id="page3">
