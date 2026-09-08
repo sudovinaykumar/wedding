@@ -9,9 +9,9 @@
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#f7e8de;-webkit-text-size-adjust:100%}
 body{overscroll-behavior:none}
-#invitation{width:100%;height:100vh;height:100svh;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;scroll-snap-stop:normal;scroll-behavior:smooth;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-#invitation::-webkit-scrollbar{display:none}
-.page{position:relative;width:100%;height:100vh;height:100svh;min-height:100vh;min-height:100svh;max-height:100vh;max-height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;scroll-snap-align:start;scroll-snap-stop:normal;background:#f7e8de}
+#invitation{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden}
+.page{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f7e8de;opacity:0;pointer-events:none;transition:opacity 700ms cubic-bezier(.22,.61,.36,1)}
+.page.active{opacity:1;pointer-events:auto;z-index:1}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms cubic-bezier(.22,.61,.36,1);will-change:transform,opacity}
 .page.active .page-art{transform:scale(1.08);opacity:1}
 .map-hit{position:absolute;left:35.6%;top:86.1%;width:32.2%;height:4.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
@@ -21,19 +21,17 @@ body{overscroll-behavior:none}
 .page.active .page2-art-wrap .page-art{transform:none;opacity:1}
 .scroll-hint{display:flex;align-items:center;justify-content:center;min-width:90px;padding:5px 10px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.14em;font:8px/1 Arial,sans-serif;white-space:nowrap;position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:transparent;color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
-body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
-#opening.page{background:#f4ded2}
+#opening{background:#f4ded2}
 .opening-art{display:block;width:100%;height:100%;object-fit:cover;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none}
 .opening-hit{position:absolute;inset:0;z-index:10;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
 #opening .scroll-hint{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.28)}
 @media(max-width:699px){.page-art{height:92%;transform:scale(.90)}.page.active .page-art{transform:scale(1.12)}#page3 .page-art{filter:drop-shadow(0 0 1px rgba(105,83,70,.10))}#page3.active .page-art{transform:scale(1.08)}.page2-art-wrap{transform:scale(.90)}.page.active .page2-art-wrap{transform:scale(1.12)}}
 @media(min-width:700px){.page-art{width:100%;height:100%;object-fit:contain;transform:scale(.88)}.page.active .page-art{transform:scale(1.08)}.scroll-hint{display:flex}
 .page2-art-wrap{height:100%}
-#invitation{position:fixed;left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);width:min(430px,94vw);height:min(920px,94dvh);border-radius:18px;box-shadow:0 30px 90px rgba(60,40,20,.30),0 0 0 1px rgba(60,40,20,.06);overflow-y:auto}
-.page{height:100%;min-height:100%;max-height:100%}
+#invitation{position:fixed;left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);width:min(430px,94vw);height:min(920px,94dvh);border-radius:18px;box-shadow:0 30px 90px rgba(60,40,20,.30),0 0 0 1px rgba(60,40,20,.06)}
 body{background:#ece0d2}
 }
-@media(prefers-reduced-motion:reduce){#invitation{scroll-behavior:auto}.page-art,.scroll-hint{transition:none}}
+@media(prefers-reduced-motion:reduce){.page,.page-art,.scroll-hint{transition:none}}
 </style>
 </head>
 <body>
@@ -42,7 +40,7 @@ body{background:#ece0d2}
 
 </audio>
 <main id="invitation">
-<section class="page" id="opening">
+<section class="page active" id="opening">
 <img class="opening-art" src="opening.png" alt="">
 <button class="opening-hit" type="button" aria-label="Tap anywhere to continue"></button>
 <div class="scroll-hint" aria-hidden="true">SCROLL DOWN</div>
@@ -68,13 +66,13 @@ body{background:#ece0d2}
 "use strict";
 const invitation=document.getElementById("invitation");
 const pages=[...document.querySelectorAll(".page")];
-const openingPage=document.getElementById("opening");
-const hit=openingPage.querySelector(".opening-hit");
+const hit=document.querySelector(".opening-hit");
 const music=document.getElementById("weddingMusic");
-let lastScrollTop=0;
+let currentIndex=0;
+let transitioning=false;
 let wasPlayingBeforeHide=false;
 let musicStarted=false;
-document.body.dataset.scrollDir="down";
+
 function startMusic(){
 if(musicStarted)return;
 try{
@@ -94,34 +92,58 @@ try{
   }
 }catch(e){}
 }
-function goToPage1(event){
-if(event){event.preventDefault();}
-startMusic();
-invitation.scrollTo({top:pages[1].offsetTop,left:0,behavior:"smooth"});
-}
-hit.addEventListener("click",goToPage1);
-hit.addEventListener("touchend",goToPage1,{passive:false});
-hit.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")goToPage1(event);});
-document.addEventListener("click",startMusic);
-document.addEventListener("touchstart",startMusic,{passive:true});
-document.addEventListener("keydown",startMusic);
-document.addEventListener("wheel",startMusic,{passive:true});
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-const wasActive=entry.target.classList.contains("active");
-const isNowActive=entry.isIntersecting&&entry.intersectionRatio>=.5;
-entry.target.classList.toggle("active",isNowActive);
-if(entry.target===openingPage&&wasActive&&!isNowActive)startMusic();
-});
-},{root:invitation,threshold:[.5,.8,1]});
-pages.forEach(page=>observer.observe(page));
-invitation.addEventListener("scroll",()=>{
-const st=invitation.scrollTop;
-if(st>lastScrollTop)document.body.dataset.scrollDir="down";
-else if(st<lastScrollTop)document.body.dataset.scrollDir="up";
-lastScrollTop=st;
+function showPage(i){
+if(i<0||i>=pages.length||i===currentIndex)return;
+pages[currentIndex].classList.remove("active");
+currentIndex=i;
+pages[currentIndex].classList.add("active");
+if(currentIndex>0)startMusic();
+}
+function safeNext(){
+if(transitioning)return;
+transitioning=true;
+showPage(currentIndex+1);
+setTimeout(()=>{transitioning=false;},750);
+}
+function safePrev(){
+if(transitioning)return;
+transitioning=true;
+showPage(currentIndex-1);
+setTimeout(()=>{transitioning=false;},750);
+}
+
+hit.addEventListener("click",event=>{event.preventDefault();startMusic();safeNext();});
+hit.addEventListener("touchend",event=>{event.preventDefault();startMusic();safeNext();},{passive:false});
+hit.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){startMusic();safeNext();}});
+
+invitation.addEventListener("wheel",event=>{
+startMusic();
+if(event.deltaY>10)safeNext();
+else if(event.deltaY<-10)safePrev();
 },{passive:true});
+
+let touchStartY=null;
+invitation.addEventListener("touchstart",event=>{
+touchStartY=event.touches[0].clientY;
+startMusic();
+},{passive:true});
+invitation.addEventListener("touchend",event=>{
+if(touchStartY===null)return;
+const dy=touchStartY-event.changedTouches[0].clientY;
+if(Math.abs(dy)>40){
+if(dy>0)safeNext();else safePrev();
+}
+touchStartY=null;
+},{passive:true});
+
+document.addEventListener("keydown",event=>{
+startMusic();
+if(event.key==="ArrowDown"||event.key==="PageDown"){safeNext();}
+else if(event.key==="ArrowUp"||event.key==="PageUp"){safePrev();}
+});
+document.addEventListener("click",startMusic);
+
 document.addEventListener("visibilitychange",()=>{
 if(document.hidden){
 wasPlayingBeforeHide=!music.paused;
