@@ -12,6 +12,7 @@ body{overscroll-behavior:none}
 #invitation{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden}
 .page{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f7e8de;opacity:0;pointer-events:none;transition:opacity 700ms cubic-bezier(.22,.61,.36,1)}
 .page.active{opacity:1;pointer-events:auto;z-index:1}
+.page.dragging{transition:none}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms cubic-bezier(.22,.61,.36,1);will-change:transform,opacity}
 .page.active .page-art{transform:scale(1.08);opacity:1}
 .map-hit{position:absolute;left:35.6%;top:86.1%;width:32.2%;height:4.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
@@ -114,7 +115,6 @@ setTimeout(()=>{transitioning=false;},750);
 }
 
 hit.addEventListener("click",event=>{event.preventDefault();startMusic();safeNext();});
-hit.addEventListener("touchend",event=>{event.preventDefault();startMusic();safeNext();},{passive:false});
 hit.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){startMusic();safeNext();}});
 
 invitation.addEventListener("wheel",event=>{
@@ -123,18 +123,59 @@ if(event.deltaY>10)safeNext();
 else if(event.deltaY<-10)safePrev();
 },{passive:true});
 
+const DRAG_DISTANCE=140;
 let touchStartY=null;
+let dragging=false;
+let dragTargetIndex=null;
+
+function clearDragState(){
+pages.forEach(p=>{p.style.opacity="";p.style.pointerEvents="";p.classList.remove("dragging");});
+}
+
 invitation.addEventListener("touchstart",event=>{
+if(transitioning)return;
 touchStartY=event.touches[0].clientY;
+dragging=false;
+dragTargetIndex=null;
 startMusic();
 },{passive:true});
-invitation.addEventListener("touchend",event=>{
-if(touchStartY===null)return;
-const dy=touchStartY-event.changedTouches[0].clientY;
-if(Math.abs(dy)>40){
-if(dy>0)safeNext();else safePrev();
+
+invitation.addEventListener("touchmove",event=>{
+if(touchStartY===null||transitioning)return;
+const currentY=event.touches[0].clientY;
+const delta=touchStartY-currentY;
+if(!dragging&&Math.abs(delta)>6){
+const targetIdx=delta>0?currentIndex+1:currentIndex-1;
+if(targetIdx<0||targetIdx>=pages.length)return;
+dragging=true;
+dragTargetIndex=targetIdx;
+pages[currentIndex].classList.add("dragging");
+pages[dragTargetIndex].classList.add("dragging");
+pages[dragTargetIndex].style.pointerEvents="none";
 }
-touchStartY=null;
+if(dragging&&dragTargetIndex!==null){
+const fraction=Math.min(Math.abs(delta)/DRAG_DISTANCE,1);
+pages[currentIndex].style.opacity=String(1-fraction);
+pages[dragTargetIndex].style.opacity=String(fraction);
+}
+},{passive:true});
+
+invitation.addEventListener("touchend",event=>{
+if(!dragging||dragTargetIndex===null){
+touchStartY=null;dragging=false;dragTargetIndex=null;
+return;
+}
+const endY=event.changedTouches[0].clientY;
+const delta=touchStartY-endY;
+const fraction=Math.min(Math.abs(delta)/DRAG_DISTANCE,1);
+const targetIdx=dragTargetIndex;
+clearDragState();
+if(fraction>0.32){
+transitioning=true;
+showPage(targetIdx);
+setTimeout(()=>{transitioning=false;},700);
+}
+touchStartY=null;dragging=false;dragTargetIndex=null;
 },{passive:true});
 
 document.addEventListener("keydown",event=>{
