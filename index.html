@@ -19,7 +19,7 @@ body{overscroll-behavior:none}
 .page2-art-wrap .page-art{height:100%;width:auto;max-width:none;transform:none;opacity:1;transition:none}
 .page.active .page2-art-wrap{transform:scale(1.08);opacity:1}
 .page.active .page2-art-wrap .page-art{transform:none;opacity:1}
-.scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:118px;padding:6px 13px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.16em;font:9px/1 Arial,sans-serif;white-space:nowrap}
+.scroll-hint,.opening-tap{display:flex;align-items:center;justify-content:center;min-width:90px;padding:5px 10px;border:1px solid rgba(255,255,255,.68);border-radius:999px;letter-spacing:.14em;font:8px/1 Arial,sans-serif;white-space:nowrap}
 .scroll-hint{position:absolute;z-index:30;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);background:transparent;color:#75665d;pointer-events:none;opacity:0;transition:opacity .4s ease}
 .page.active .scroll-hint{opacity:1}
 body[data-scroll-dir="up"] .scroll-hint{opacity:0!important}
@@ -47,7 +47,7 @@ body{background:#ece0d2}
 <div id="opening" role="button" tabindex="0" aria-label="Open wedding invitation">
 <img class="opening-art" src="opening.png" alt="">
 <button class="opening-hit" type="button" aria-label="Tap anywhere to open invitation">
-<span class="opening-tap" aria-hidden="true">TAP ANYWHERE</span>
+<span class="opening-tap" aria-hidden="true">SCROLL DOWN</span>
 </button>
 </div>
 <main id="invitation">
@@ -115,9 +115,18 @@ opening.addEventListener("touchend",enter,{passive:false});
 opening.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")enter(event);});
 hit.addEventListener("click",enter);
 hit.addEventListener("touchend",enter,{passive:false});
+opening.addEventListener("wheel",event=>{enter(event);},{passive:false});
+let openingTouchStartY=null;
+opening.addEventListener("touchstart",event=>{openingTouchStartY=event.touches[0].clientY;},{passive:true});
+opening.addEventListener("touchmove",event=>{
+if(openingTouchStartY===null)return;
+const dy=Math.abs(event.touches[0].clientY-openingTouchStartY);
+if(dy>10){enter(event);openingTouchStartY=null;}
+},{passive:false});
 document.addEventListener("click",startMusic);
 document.addEventListener("touchstart",startMusic,{passive:true});
 document.addEventListener("keydown",startMusic);
+document.addEventListener("wheel",startMusic,{passive:true});
 
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>entry.target.classList.toggle("active",entry.isIntersecting&&entry.intersectionRatio>=.5));
