@@ -173,6 +173,17 @@ if(!music.paused)music.pause();
 if(wasPlayingBeforeHide)music.play().catch(()=>{});
 }
 });
+window.addEventListener("pagehide",()=>{
+wasPlayingBeforeHide=!music.paused;
+});
+window.addEventListener("pageshow",()=>{
+if(wasPlayingBeforeHide){
+const p=music.play();
+if(p!==undefined){
+p.then(()=>{musicStarted=true;}).catch(()=>{musicStarted=false;});
+}
+}
+});
 })();
 </script>
 </body>
