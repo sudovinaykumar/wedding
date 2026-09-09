@@ -133,14 +133,15 @@ pages.forEach(p=>{p.style.opacity="";p.style.pointerEvents="";p.classList.remove
 }
 
 invitation.addEventListener("touchstart",event=>{
+startMusic();
 if(transitioning)return;
 touchStartY=event.touches[0].clientY;
 dragging=false;
 dragTargetIndex=null;
-startMusic();
 },{passive:true});
 
 invitation.addEventListener("touchmove",event=>{
+startMusic();
 if(touchStartY===null||transitioning)return;
 const currentY=event.touches[0].clientY;
 const delta=touchStartY-currentY;
@@ -161,6 +162,7 @@ pages[dragTargetIndex].style.opacity=String(fraction);
 },{passive:true});
 
 invitation.addEventListener("touchend",()=>{
+startMusic();
 if(!dragging||dragTargetIndex===null){
 touchStartY=null;dragging=false;dragTargetIndex=null;
 return;
@@ -179,6 +181,7 @@ if(event.key==="ArrowDown"||event.key==="PageDown"){safeNext();}
 else if(event.key==="ArrowUp"||event.key==="PageUp"){safePrev();}
 });
 document.addEventListener("click",startMusic);
+document.addEventListener("touchstart",startMusic,{passive:true});
 
 document.addEventListener("visibilitychange",()=>{
 if(document.hidden){
