@@ -73,6 +73,16 @@ let transitioning=false;
 let musicStarted=false;
 document.body.dataset.scrollDir="down";
 
+(function optimizeMapLink(){
+const mapAnchor=document.querySelector(".map-hit");
+if(!mapAnchor)return;
+const ua=navigator.userAgent||"";
+const isNonSafariIOSBrowser=/CriOS|FxiOS|EdgiOS|OPiOS|mercury/i.test(ua);
+if(isNonSafariIOSBrowser){
+mapAnchor.href="https://www.google.com/maps/search/?query=GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru";
+}
+})();
+
 function startMusic(){
 if(musicStarted)return;
 try{
