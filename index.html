@@ -182,20 +182,28 @@ document.addEventListener("click",startMusic);
 document.addEventListener("touchstart",startMusic,{passive:true});
 
 let pageIsHidden=false;
+let pendingResume=false;
 function handlePageHide(){
 if(pageIsHidden)return;
 pageIsHidden=true;
 wasPlayingBeforeHide=!music.paused;
 if(!music.paused)music.pause();
 }
+function tryResume(){
+if(!pendingResume)return;
+const p=music.play();
+if(p!==undefined){
+p.then(()=>{musicStarted=true;pendingResume=false;}).catch(()=>{});
+}else{
+musicStarted=true;pendingResume=false;
+}
+}
 function handlePageShow(){
 if(!pageIsHidden)return;
 pageIsHidden=false;
 if(wasPlayingBeforeHide){
-const p=music.play();
-if(p!==undefined){
-p.then(()=>{musicStarted=true;}).catch(()=>{musicStarted=false;});
-}
+pendingResume=true;
+tryResume();
 }
 }
 document.addEventListener("visibilitychange",()=>{
@@ -203,6 +211,8 @@ if(document.hidden)handlePageHide();else handlePageShow();
 });
 window.addEventListener("pagehide",handlePageHide);
 window.addEventListener("pageshow",handlePageShow);
+document.addEventListener("click",tryResume);
+document.addEventListener("touchstart",tryResume,{passive:true});
 })();
 </script>
 </body>
