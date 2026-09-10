@@ -232,7 +232,9 @@ function ensurePlaying(){
 if(!musicStarted&&!desiredPlaying)return;
 if(!music.paused)return;
 try{
-music.currentTime=music.currentTime;
+const resumeTime=music.currentTime;
+music.load();
+music.currentTime=resumeTime;
 const p=music.play();
 if(p!==undefined)p.catch(()=>{});
 }catch(e){}
