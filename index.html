@@ -70,7 +70,6 @@ const pages=[...document.querySelectorAll(".page")];
 const music=document.getElementById("weddingMusic");
 let currentIndex=0;
 let transitioning=false;
-let wasPlayingBeforeHide=false;
 let musicStarted=false;
 document.body.dataset.scrollDir="down";
 
@@ -208,58 +207,43 @@ document.addEventListener("click",startMusic);
 document.addEventListener("touchstart",startMusic,{passive:true});
 
 let pageIsHidden=false;
-let pendingResume=false;
-let suppressPauseTracking=false;
+let desiredPlaying=false;
 function handlePageHide(){
 if(pageIsHidden)return;
 pageIsHidden=true;
-wasPlayingBeforeHide=!music.paused;
 if(!music.paused){
-suppressPauseTracking=true;
+desiredPlaying=true;
 music.pause();
 }
 }
-function tryResume(){
-if(!pendingResume)return;
+function ensurePlaying(){
+if(!musicStarted&&!desiredPlaying)return;
+if(!music.paused)return;
 try{
-suppressPauseTracking=true;
-music.pause();
 music.currentTime=music.currentTime;
 const p=music.play();
-if(p!==undefined){
-p.catch(()=>{});
-}
+if(p!==undefined)p.catch(()=>{});
 }catch(e){}
 }
 music.addEventListener("playing",()=>{
 musicStarted=true;
-pendingResume=false;
 });
 music.addEventListener("pause",()=>{
-if(suppressPauseTracking){
-suppressPauseTracking=false;
-return;
-}
 if(!document.hidden&&musicStarted){
-wasPlayingBeforeHide=true;
-pendingResume=true;
+desiredPlaying=true;
 }
 });
 function handlePageShow(){
-if(!pageIsHidden)return;
 pageIsHidden=false;
-if(wasPlayingBeforeHide){
-pendingResume=true;
-tryResume();
-}
+ensurePlaying();
 }
 document.addEventListener("visibilitychange",()=>{
 if(document.hidden)handlePageHide();else handlePageShow();
 });
 window.addEventListener("pagehide",handlePageHide);
 window.addEventListener("pageshow",handlePageShow);
-document.addEventListener("click",tryResume);
-document.addEventListener("touchstart",tryResume,{passive:true});
+document.addEventListener("click",ensurePlaying);
+document.addEventListener("touchstart",ensurePlaying,{passive:true});
 
 if("visualViewport"in window){
 const resetIfZoomedOut=()=>{
