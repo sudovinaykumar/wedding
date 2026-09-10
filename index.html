@@ -77,10 +77,11 @@ document.body.dataset.scrollDir="down";
 const mapAnchor=document.querySelector(".map-hit");
 if(!mapAnchor)return;
 const ua=navigator.userAgent||"";
-const isNonSafariIOSBrowser=/CriOS|FxiOS|EdgiOS|OPiOS|mercury/i.test(ua);
-if(isNonSafariIOSBrowser){
-mapAnchor.target="_blank";
-mapAnchor.rel="noopener";
+const query="GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru";
+const isAndroid=/Android/i.test(ua);
+if(isAndroid){
+const fallback=encodeURIComponent("https://www.google.com/maps/search/?api=1&query="+query);
+mapAnchor.href="intent://maps.google.com/maps?q="+query+"#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url="+fallback+";end";
 }
 })();
 
