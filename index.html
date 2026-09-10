@@ -16,15 +16,6 @@ body{overscroll-behavior:none}
 .page-art{display:block;width:auto;height:92%;max-width:none;object-fit:contain;object-position:center;margin:0;padding:0;border:0;pointer-events:none;user-select:none;-webkit-user-drag:none;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms cubic-bezier(.22,.61,.36,1);will-change:transform,opacity}
 .page.active .page-art{transform:scale(1.08);opacity:1}
 .map-hit{position:absolute;left:35.6%;top:86.1%;width:32.2%;height:4.6%;display:block;background:transparent;border:0;outline:0!important;-webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation}
-.map-overlay{position:absolute;inset:0;z-index:50;background:rgba(20,14,10,.55);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 250ms ease}
-.map-overlay.open{opacity:1;pointer-events:auto}
-.map-overlay-inner{position:relative;width:88%;height:70%;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column}
-.map-overlay-inner iframe{border:0;flex:1;width:100%}
-.map-overlay-close{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.5);color:#fff;font-size:19px;line-height:1;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.map-overlay-directions{border-top:1px solid rgba(255,255,255,.25)}
-.map-overlay-directions{display:flex;align-items:center;justify-content:center;gap:7px;padding:14px 12px;background:linear-gradient(135deg,#c9a27a,#a9784f);color:#fff;text-decoration:none;font:600 12px/1 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;transition:filter 150ms ease,transform 150ms ease}
-.map-overlay-directions:active{filter:brightness(.92);transform:scale(.98)}
-.map-overlay-directions svg{width:14px;height:14px;flex-shrink:0}
 .page2-art-wrap{position:relative;display:inline-flex;height:92%;transform:scale(.88);opacity:.72;transform-origin:center;transition:transform 700ms cubic-bezier(.22,.61,.36,1),opacity 700ms cubic-bezier(.22,.61,.36,1)}
 .page2-art-wrap .page-art{height:100%;width:auto;max-width:none;transform:none;opacity:1;transition:none}
 .page.active .page2-art-wrap{transform:scale(1.08);opacity:1}
@@ -69,13 +60,6 @@ body{background:#ece0d2}
 <section class="page" id="page3">
 <img class="page-art" src="page3.png" alt="With Love — Rachana and Vinay Kumar" decoding="async">
 </section>
-<div id="mapOverlay" class="map-overlay" aria-hidden="true">
-<div class="map-overlay-inner">
-<button type="button" class="map-overlay-close" aria-label="Close map">&times;</button>
-<iframe id="mapOverlayFrame" title="Venue location" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-<a id="mapOverlayDirections" class="map-overlay-directions" href="#"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.86 2 4.5 5.36 4.5 9.5c0 5.5 6.5 11.5 7.02 11.97a.75.75 0 0 0 .96 0C13 21 19.5 15 19.5 9.5 19.5 5.36 16.14 2 12 2zm0 10.25a2.75 2.75 0 1 1 0-5.5 2.75 2.75 0 0 1 0 5.5z"/></svg>GET DIRECTIONS</a>
-</div>
-</div>
 </main>
 
 <script>
@@ -91,52 +75,13 @@ document.body.dataset.scrollDir="down";
 
 (function setupMapHandling(){
 const mapAnchor=document.querySelector(".map-hit");
-const overlay=document.getElementById("mapOverlay");
-if(!mapAnchor||!overlay)return;
+if(!mapAnchor)return;
 const ua=navigator.userAgent||"";
 const isNonSafariIOSBrowser=/CriOS|FxiOS|EdgiOS|OPiOS|mercury/i.test(ua);
-if(!isNonSafariIOSBrowser)return;
-
-const query="GNR%20Kalyana%20Mantapa%2C%20Jayanagar%2C%20Bengaluru";
-const frame=document.getElementById("mapOverlayFrame");
-const directionsLink=document.getElementById("mapOverlayDirections");
-const closeBtn=overlay.querySelector(".map-overlay-close");
-const webUrl="https://www.google.com/maps/search/?api=1&query="+query;
-directionsLink.href=webUrl;
-directionsLink.addEventListener("click",event=>{
-event.preventDefault();
-const appUrl="comgooglemaps://?q="+query;
-let navigatedAway=false;
-const onHide=()=>{navigatedAway=true;};
-document.addEventListener("visibilitychange",onHide,{once:true});
-window.location.href=appUrl;
-setTimeout(()=>{
-document.removeEventListener("visibilitychange",onHide);
-if(!navigatedAway){
-window.location.href=webUrl;
+if(isNonSafariIOSBrowser){
+mapAnchor.target="_blank";
+mapAnchor.rel="noopener";
 }
-},900);
-});
-
-function openOverlay(){
-if(!frame.src){
-frame.src="https://maps.google.com/maps?q="+query+"&t=k&output=embed";
-}
-overlay.classList.add("open");
-overlay.setAttribute("aria-hidden","false");
-}
-function closeOverlay(){
-overlay.classList.remove("open");
-overlay.setAttribute("aria-hidden","true");
-}
-mapAnchor.addEventListener("click",event=>{
-event.preventDefault();
-openOverlay();
-});
-closeBtn.addEventListener("click",closeOverlay);
-overlay.addEventListener("click",event=>{
-if(event.target===overlay)closeOverlay();
-});
 })();
 
 function startMusic(){
