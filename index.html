@@ -183,25 +183,28 @@ else if(event.key==="ArrowUp"||event.key==="PageUp"){safePrev();}
 document.addEventListener("click",startMusic);
 document.addEventListener("touchstart",startMusic,{passive:true});
 
-document.addEventListener("visibilitychange",()=>{
-if(document.hidden){
+let pageIsHidden=false;
+function handlePageHide(){
+if(pageIsHidden)return;
+pageIsHidden=true;
 wasPlayingBeforeHide=!music.paused;
 if(!music.paused)music.pause();
-}else{
-if(wasPlayingBeforeHide)music.play().catch(()=>{});
 }
-});
-window.addEventListener("pagehide",()=>{
-wasPlayingBeforeHide=!music.paused;
-});
-window.addEventListener("pageshow",()=>{
+function handlePageShow(){
+if(!pageIsHidden)return;
+pageIsHidden=false;
 if(wasPlayingBeforeHide){
 const p=music.play();
 if(p!==undefined){
 p.then(()=>{musicStarted=true;}).catch(()=>{musicStarted=false;});
 }
 }
+}
+document.addEventListener("visibilitychange",()=>{
+if(document.hidden)handlePageHide();else handlePageShow();
 });
+window.addEventListener("pagehide",handlePageHide);
+window.addEventListener("pageshow",handlePageShow);
 })();
 </script>
 </body>
