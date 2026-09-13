@@ -72,10 +72,11 @@ const music=document.getElementById("weddingMusic");
 let currentIndex=0;
 let transitioning=false;
 let musicStarted=false;
+let playAttemptInFlight=false;
 document.body.dataset.scrollDir="down";
 
 function startMusic(){
-if(musicStarted)return;
+if(musicStarted||playAttemptInFlight)return;
 try{
   if(!music.querySelector("source")){
     const source=document.createElement("source");
@@ -85,13 +86,15 @@ try{
     music.load();
   }
   music.volume=0.65;
+  playAttemptInFlight=true;
   const playPromise=music.play();
   if(playPromise!==undefined){
-    playPromise.then(()=>{musicStarted=true;}).catch(()=>{});
+    playPromise.then(()=>{musicStarted=true;playAttemptInFlight=false;}).catch(()=>{playAttemptInFlight=false;});
   }else{
     musicStarted=true;
+    playAttemptInFlight=false;
   }
-}catch(e){}
+}catch(e){playAttemptInFlight=false;}
 }
 
 function showPage(i){
@@ -117,6 +120,7 @@ setTimeout(()=>{transitioning=false;},750);
 
 invitation.addEventListener("wheel",event=>{
 startMusic();
+ensurePlaying();
 if(event.deltaY>10)safeNext();
 else if(event.deltaY<-10)safePrev();
 },{passive:true});
@@ -201,6 +205,7 @@ touchStartY=null;dragging=false;dragTargetIndex=null;
 
 document.addEventListener("keydown",event=>{
 startMusic();
+ensurePlaying();
 if(event.key==="ArrowDown"||event.key==="PageDown"){safeNext();}
 else if(event.key==="ArrowUp"||event.key==="PageUp"){safePrev();}
 });
@@ -220,13 +225,19 @@ music.pause();
 function ensurePlaying(){
 if(!musicStarted&&!desiredPlaying)return;
 if(!music.paused)return;
+if(playAttemptInFlight)return;
 try{
 const resumeTime=music.currentTime;
+playAttemptInFlight=true;
 music.load();
 music.currentTime=resumeTime;
 const p=music.play();
-if(p!==undefined)p.catch(()=>{});
-}catch(e){}
+if(p!==undefined){
+p.then(()=>{playAttemptInFlight=false;}).catch(()=>{playAttemptInFlight=false;});
+}else{
+playAttemptInFlight=false;
+}
+}catch(e){playAttemptInFlight=false;}
 }
 music.addEventListener("playing",()=>{
 musicStarted=true;
